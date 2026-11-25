@@ -45,7 +45,7 @@ const CustomerAppContent = () => {
       {/* Footer */}
       <footer className="bg-white border-t border-slate-200/80 py-8 text-center text-xs text-slate-500 space-y-2">
         <div className="font-extrabold text-sm text-slate-900 flex items-center justify-center gap-1">
-          bharat<span className="text-emerald-600">.</span> - 10-Minute Quick Commerce
+          bharat<span className="text-emerald-600 font-black">basket</span> - 10-Minute Quick Commerce
         </div>
         <p>Built with Next-Gen Hyperlocal Architecture: Customer App (:3000) • Seller Terminal (:3001) • Admin Console (:3002) • Central API (:5000)</p>
       </footer>

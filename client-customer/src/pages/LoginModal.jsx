@@ -58,10 +58,10 @@ const LoginModal = ({ isOpen, onClose }) => {
             B
           </div>
           <h3 className="text-lg font-black text-slate-900 tracking-tight">
-            {isRegister ? 'Join Bharat' : 'Welcome to Bharat'}
+            {isRegister ? 'Join BharatBasket' : 'Welcome to BharatBasket'}
           </h3>
           <p className="text-[11px] text-slate-500 mt-0.5">
-            Bharat's last minute app • Groceries in 10 minutes
+            BharatBasket's last minute app • Groceries in 10 minutes
           </p>
         </div>
 
@@ -162,7 +162,7 @@ const LoginModal = ({ isOpen, onClose }) => {
           {isRegister ? (
             <span>Already have an account? <button onClick={() => setIsRegister(false)} className="text-emerald-700 font-bold hover:underline">Login</button></span>
           ) : (
-            <span>New to Blinkit? <button onClick={() => setIsRegister(true)} className="text-emerald-700 font-bold hover:underline">Sign up</button></span>
+            <span>New to BharatBasket? <button onClick={() => setIsRegister(true)} className="text-emerald-700 font-bold hover:underline">Sign up</button></span>
           )}
         </div>
       </div>

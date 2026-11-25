@@ -31,7 +31,7 @@ const Header = ({ search, setSearch, onOpenLogin, onOpenOrders }) => {
               B
             </div>
             <span className="text-2xl font-black tracking-tight text-slate-900 hidden sm:inline">
-              bharat<span className="text-emerald-600 font-black">.</span>
+              bharat<span className="text-emerald-600 font-black">basket</span>
             </span>
           </div>
 

@@ -81,7 +81,7 @@ const seedData = async () => {
 
     // Approved Shop
     const shop1 = await Shop.create({
-      name: 'Bharat Express Mart (CP)',
+      name: 'BharatBasket Express Mart (CP)',
       owner: seller1._id,
       phone: '9811223344',
       description: 'Superfast 10-15 mins delivery for all daily groceries and essentials.',
@@ -293,7 +293,7 @@ const seedData = async () => {
 
     const products = await Product.insertMany(productsData);
 
-    console.log('[Seed] Stocking shop inventory for Blinkit Express Mart...');
+    console.log('[Seed] Stocking shop inventory for BharatBasket Express Mart...');
 
     const inventoryData = products.map((prod, index) => {
       const discount = (index % 3 === 0) ? Math.round(prod.defaultPrice * 0.9) : null;

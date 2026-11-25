@@ -32,7 +32,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
           </div>
           <div>
             <div className="font-extrabold text-lg tracking-tight flex items-center gap-1 text-white">
-              bharat<span className="text-yellow-400 font-black">.</span>
+              bharat<span className="text-yellow-400 font-black">basket</span>
             </div>
             <div className="text-[11px] font-semibold tracking-wider text-emerald-400 uppercase flex items-center gap-1">
               <ShieldCheck className="w-3 h-3" /> Super Admin
@@ -78,7 +78,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
             </div>
             <div className="overflow-hidden">
               <p className="text-xs font-bold text-white truncate">{user?.name || 'Admin User'}</p>
-              <p className="text-[11px] text-slate-400 truncate">{user?.email || 'admin@blinkit.com'}</p>
+              <p className="text-[11px] text-slate-400 truncate">{user?.email || 'admin@bharatbasket.com'}</p>
             </div>
           </div>
           <button

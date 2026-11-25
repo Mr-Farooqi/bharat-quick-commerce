@@ -92,7 +92,7 @@ const Login = () => {
             <Store className="w-8 h-8" />
           </div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center justify-center gap-1.5">
-            bharat<span className="text-emerald-400">.</span>
+            bharat<span className="text-emerald-400 font-black">basket</span>
             <span className="text-slate-400 font-normal text-sm ml-2 px-2.5 py-0.5 rounded-full border border-slate-700 bg-slate-800">
               Merchant Hub
             </span>

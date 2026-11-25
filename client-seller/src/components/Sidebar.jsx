@@ -29,7 +29,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
           </div>
           <div>
             <div className="font-extrabold text-lg tracking-tight flex items-center gap-1 text-slate-900">
-              bharat<span className="text-emerald-600 font-black">.</span>
+              bharat<span className="text-emerald-600 font-black">basket</span>
             </div>
             <div className="text-[11px] font-bold text-slate-400 tracking-wider uppercase">
               Merchant Partner

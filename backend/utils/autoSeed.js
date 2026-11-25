@@ -57,7 +57,7 @@ const autoSeedIfEmpty = async () => {
 
     // 2. Shops
     const shop1 = await Shop.create({
-      name: 'Bharat Express Mart (CP)',
+      name: 'BharatBasket Express Mart (CP)',
       owner: seller1._id,
       phone: '9811223344',
       description: 'Superfast 10-15 mins delivery for all daily groceries and essentials.',

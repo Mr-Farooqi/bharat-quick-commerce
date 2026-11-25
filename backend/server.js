@@ -100,7 +100,7 @@ app.get('/api/health', (req, res) => {
     status: 'healthy',
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
-    service: 'Bharat Quick-Commerce Multi-Portal API',
+    service: 'BharatBasket Quick-Commerce Multi-Portal API',
   });
 });
 
@@ -120,7 +120,7 @@ connectDB().then(async () => {
   await autoSeedIfEmpty();
   server.listen(PORT, () => {
     console.log(`=======================================================`);
-    console.log(`🚀 Bharat Quick-Commerce Central API running on PORT: ${PORT}`);
+    console.log(`🚀 BharatBasket Quick-Commerce Central API running on PORT: ${PORT}`);
     console.log(`   - Customer Portal expected at: ${process.env.CLIENT_CUSTOMER_URL || 'http://localhost:3000'}`);
     console.log(`   - Seller Portal expected at:   ${process.env.CLIENT_SELLER_URL || 'http://localhost:3001'}`);
     console.log(`   - Admin Portal expected at:    ${process.env.CLIENT_ADMIN_URL || 'http://localhost:3002'}`);
