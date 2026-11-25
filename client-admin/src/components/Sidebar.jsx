@@ -27,12 +27,10 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
       <div>
         {/* Brand header */}
         <div className="p-6 border-b border-slate-800/80 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-orange-500 to-yellow-400 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-orange-500/20">
-            B
-          </div>
+          <img src="/logo.webp" alt="BharatBasket" className="w-10 h-10 rounded-xl object-contain shadow-lg shadow-orange-500/20" />
           <div>
             <div className="font-extrabold text-lg tracking-tight flex items-center gap-1 text-white">
-              bharat<span className="text-yellow-400 font-black">basket</span>
+              Bharat<span className="text-yellow-400 font-black">Basket</span>
             </div>
             <div className="text-[11px] font-semibold tracking-wider text-emerald-400 uppercase flex items-center gap-1">
               <ShieldCheck className="w-3 h-3" /> Super Admin

@@ -27,11 +27,9 @@ const Header = ({ search, setSearch, onOpenLogin, onOpenOrders }) => {
         <div className="flex items-center gap-6">
           {/* Bharat Logo */}
           <div className="flex items-center gap-2 cursor-pointer select-none">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-yellow-400 flex items-center justify-center font-black text-slate-950 text-2xl shadow-md shadow-orange-400/20">
-              B
-            </div>
+            <img src="/logo.webp" alt="BharatBasket" className="w-10 h-10 rounded-2xl object-contain shadow-md shadow-orange-400/20" />
             <span className="text-2xl font-black tracking-tight text-slate-900 hidden sm:inline">
-              bharat<span className="text-emerald-600 font-black">basket</span>
+              Bharat<span className="text-emerald-600 font-black">Basket</span>
             </span>
           </div>
 

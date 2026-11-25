@@ -40,11 +40,9 @@ const Login = () => {
       <div className="max-w-md w-full relative z-10">
         {/* Logo Card */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-yellow-400 text-slate-950 font-black text-3xl shadow-xl shadow-orange-500/20 mb-4 transform -rotate-3 hover:rotate-0 transition-transform">
-            B
-          </div>
+          <img src="/logo.webp" alt="BharatBasket" className="w-16 h-16 rounded-2xl object-contain mx-auto mb-4 shadow-xl shadow-orange-500/20 transform -rotate-3 hover:rotate-0 transition-transform" />
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center justify-center gap-1.5">
-            bharat<span className="text-yellow-400 font-black">basket</span>
+            Bharat<span className="text-yellow-400 font-black">Basket</span>
             <span className="text-slate-400 font-normal text-sm ml-2 px-2.5 py-0.5 rounded-full border border-slate-700 bg-slate-900">
               Admin Portal
             </span>

@@ -88,11 +88,9 @@ const Login = () => {
 
       <div className="max-w-lg w-full relative z-10">
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-500 text-white font-black text-3xl shadow-xl shadow-emerald-500/20 mb-3">
-            <Store className="w-8 h-8" />
-          </div>
+          <img src="/logo.webp" alt="BharatBasket" className="w-16 h-16 rounded-2xl object-contain mx-auto mb-3 shadow-xl shadow-orange-500/20" />
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center justify-center gap-1.5">
-            bharat<span className="text-emerald-400 font-black">basket</span>
+            Bharat<span className="text-emerald-400 font-black">Basket</span>
             <span className="text-slate-400 font-normal text-sm ml-2 px-2.5 py-0.5 rounded-full border border-slate-700 bg-slate-800">
               Merchant Hub
             </span>

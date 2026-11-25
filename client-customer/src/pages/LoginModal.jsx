@@ -54,9 +54,7 @@ const LoginModal = ({ isOpen, onClose }) => {
 
         {/* Logo */}
         <div className="text-center mb-5">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-yellow-400 text-slate-950 font-black text-2xl flex items-center justify-center mx-auto mb-2 shadow-md shadow-orange-400/20">
-            B
-          </div>
+          <img src="/logo.webp" alt="BharatBasket" className="w-14 h-14 rounded-2xl object-contain mx-auto mb-2 shadow-md shadow-orange-400/20" />
           <h3 className="text-lg font-black text-slate-900 tracking-tight">
             {isRegister ? 'Join BharatBasket' : 'Welcome to BharatBasket'}
           </h3>
