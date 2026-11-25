@@ -84,20 +84,25 @@
       </div>
     </div>
 
-    <!-- Demo Credentials Card -->
-    <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-      <div>
-        <span class="text-[10px] font-black uppercase text-amber-400 tracking-wider block">Pre-Seeded Demo Account</span>
-        <h4 class="text-sm font-bold text-white mt-0.5">Instant Testing Credentials</h4>
-      </div>
-      <div class="flex items-center gap-4 text-xs font-mono">
-        <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300">
-          Email: <strong class="text-white">customer@bharatbasket.com</strong>
+    <!-- QA Testing Credentials Drawer (Collapsible) -->
+    <div class="border border-slate-800 rounded-2xl p-4 bg-slate-900/60">
+      <details class="cursor-pointer group">
+        <summary class="flex items-center justify-between text-xs font-bold text-slate-400 hover:text-slate-200 select-none">
+          <span class="flex items-center gap-2">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+            <span>Staging / QA Testing Account (Click to Expand)</span>
+          </span>
+          <span class="text-[10px] text-slate-500 uppercase">Demo Access</span>
+        </summary>
+        <div class="mt-4 pt-3 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono">
+          <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 w-full sm:w-auto">
+            Email: <strong class="text-white">customer@bharatbasket.com</strong>
+          </div>
+          <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 w-full sm:w-auto">
+            Password: <strong class="text-emerald-400">customer1234</strong>
+          </div>
         </div>
-        <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300">
-          Password: <strong class="text-amber-400">customer1234</strong>
-        </div>
-      </div>
+      </details>
     </div>
 
     <!-- Feature Grid -->
