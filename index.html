@@ -384,7 +384,7 @@
             </div>
           </div>
           <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs font-black text-emerald-400">
-            <span>Open Portal Details</span>
+            <span class="portal-cta-label">Open Site</span>
             <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
           </div>
         </a>
@@ -404,7 +404,7 @@
             </div>
           </div>
           <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs font-black text-amber-400">
-            <span>Open Portal Details</span>
+            <span class="portal-cta-label">Open Site</span>
             <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
           </div>
         </a>
@@ -424,7 +424,7 @@
             </div>
           </div>
           <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs font-black text-cyan-400">
-            <span>Open Portal Details</span>
+            <span class="portal-cta-label">Open Site</span>
             <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
           </div>
         </a>
@@ -444,7 +444,7 @@
             </div>
           </div>
           <div class="pt-6 border-t border-slate-800/80 mt-6 flex items-center justify-between text-xs font-black text-purple-400">
-            <span>Open Portal Details</span>
+            <span class="portal-cta-label">Open Site</span>
             <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
           </div>
         </a>
@@ -509,6 +509,22 @@
 
   <script>
     lucide.createIcons();
+
+    function isMobileDevice() {
+      const ua = navigator.userAgent || navigator.vendor || window.opera;
+      const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+      const isSmallScreen = window.innerWidth <= 820;
+      const isTouchDevice = (navigator.maxTouchPoints && navigator.maxTouchPoints > 1);
+      return isMobileUA || (isSmallScreen && isTouchDevice);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (isMobileDevice()) {
+        document.querySelectorAll('.portal-cta-label').forEach((el) => {
+          el.textContent = 'Download App';
+        });
+      }
+    });
 
     function toggleQaConsole() {
       const box = document.getElementById('qaBox');

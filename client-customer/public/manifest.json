@@ -1,0 +1,24 @@
+{
+  "name": "BharatBasket - 10-Minute Grocery Delivery",
+  "short_name": "BharatBasket",
+  "description": "Hyperlocal 10-minute grocery discovery, live tracking, and quick checkout.",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#020617",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

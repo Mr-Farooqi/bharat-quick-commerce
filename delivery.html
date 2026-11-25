@@ -54,12 +54,35 @@
       </p>
 
       <!-- Launch Controller -->
-      <div class="mt-8 p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Direct Launch Link:</span>
-          <span class="text-[10px] font-bold text-cyan-400 bg-cyan-950 px-2.5 py-0.5 rounded-full border border-cyan-800">
-            Live on Vercel
-          </span>
+      <div class="mt-8 p-5 sm:p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span id="deviceBadge" class="text-[11px] font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 transition-all">
+              <i data-lucide="laptop" class="w-3.5 h-3.5 text-blue-400"></i>
+              <span>Detecting Device...</span>
+            </span>
+            <span class="text-xs font-semibold text-slate-400 hidden sm:inline" id="deviceSubtitle">
+              • Rider Fleet Gateway
+            </span>
+          </div>
+
+          <!-- Quick Preview Mode Switcher (For testing PC vs Mobile) -->
+          <div class="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-[11px]">
+            <button
+              id="modePcBtn"
+              onclick="setDeviceMode('desktop')"
+              class="px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white"
+            >
+              💻 PC / Laptop
+            </button>
+            <button
+              id="modeMobileBtn"
+              onclick="setDeviceMode('mobile')"
+              class="px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white"
+            >
+              📱 Mobile / Tablet
+            </button>
+          </div>
         </div>
 
         <div class="flex flex-col sm:flex-row items-center gap-3">
@@ -71,13 +94,18 @@
             class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-xs text-white font-mono focus:outline-none focus:border-cyan-400"
           >
           <button
-            onclick="launchApp()"
+            id="launchActionBtn"
+            onclick="handleDeviceLaunch()"
             class="w-full sm:w-auto px-8 py-3 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs rounded-xl transition-all shadow-lg shadow-cyan-400/20 shrink-0 flex items-center justify-center gap-2 cursor-pointer"
           >
-            <i data-lucide="external-link" class="w-4 h-4"></i>
-            <span>OPEN LIVE APP</span>
+            <i id="launchActionIcon" data-lucide="external-link" class="w-4 h-4"></i>
+            <span id="launchActionText">OPEN SITE</span>
           </button>
         </div>
+        
+        <p id="actionHelpText" class="text-[11px] text-slate-400">
+          Detected PC/Laptop: Clicking "OPEN SITE" opens the rider portal in a new browser tab.
+        </p>
       </div>
     </div>
 
@@ -152,6 +180,69 @@
 
   </main>
 
+  <!-- Mobile Download & Install Modal -->
+  <div id="downloadModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-cyan-500/40 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative space-y-5">
+      <button onclick="closeDownloadModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-3">
+        <img src="assets/logo.webp" alt="BharatBasket" class="w-12 h-12 rounded-2xl object-contain bg-slate-950 p-1 border border-cyan-500/30">
+        <div>
+          <h3 class="font-black text-white text-base">BharatBasket Rider Fleet Hub</h3>
+          <span class="text-xs text-cyan-400 font-bold">Official Application Package • v1.0.0</span>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-cyan-950/40 border border-cyan-800/50 space-y-2">
+        <div class="flex items-center gap-2 text-cyan-300 font-bold text-xs">
+          <i data-lucide="check-circle" class="w-4 h-4 text-cyan-400"></i>
+          <span>App Download Started!</span>
+        </div>
+        <p class="text-[11px] text-slate-300">
+          Package <code class="font-mono text-cyan-400">BharatBasket-Delivery.apk</code> is downloading to your device's Downloads folder.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">2 Easy Ways To Use On Mobile:</h4>
+        
+        <!-- Option 1: Instant Standalone Launch / PWA -->
+        <a id="instantPwaLink" href="https://bharat-delivery-zeta.vercel.app?install=true" target="_blank" class="flex items-center justify-between p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 transition-all group">
+          <div class="flex items-center gap-3">
+            <span class="text-xl">⚡</span>
+            <div>
+              <div class="text-xs font-black text-white group-hover:text-cyan-400 transition-colors">Instant App Mode (PWA)</div>
+              <div class="text-[10px] text-slate-400">Adds full-screen rider app icon to phone home screen</div>
+            </div>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400"></i>
+        </a>
+
+        <!-- Option 2: Direct APK Re-Download -->
+        <a id="apkDirectLink" href="assets/downloads/BharatBasket-Delivery.apk" download class="flex items-center justify-between p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 transition-all group">
+          <div class="flex items-center gap-3">
+            <span class="text-xl">📦</span>
+            <div>
+              <div class="text-xs font-black text-white group-hover:text-cyan-400 transition-colors">Re-download APK File</div>
+              <div class="text-[10px] text-slate-400">Tap to manually download .apk package again</div>
+            </div>
+          </div>
+          <i data-lucide="download" class="w-4 h-4 text-slate-500 group-hover:text-cyan-400"></i>
+        </a>
+      </div>
+
+      <div class="text-[11px] text-slate-400 bg-slate-950 p-3 rounded-xl border border-slate-800/80">
+        💡 <strong>Mobile Tip:</strong> On Android Chrome, tap <span class="text-white font-bold">⋮ Menu ➔ Add to Home screen</span>. On iPhone Safari, tap <span class="text-white font-bold">Share ➔ Add to Home Screen</span>.
+      </div>
+
+      <button onclick="closeDownloadModal()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300">
+        Close Window
+      </button>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="border-t border-slate-900 bg-slate-950 py-8 text-center text-xs text-slate-600">
     <p>BharatBasket Delivery Partner App • Monorepo Package `client-delivery`</p>
@@ -160,12 +251,96 @@
   <script>
     lucide.createIcons();
 
-    function launchApp() {
-      const url = document.getElementById('appUrlInput').value.trim();
-      if (url) {
-        window.open(url, '_blank');
+    const APK_URL = 'assets/downloads/BharatBasket-Delivery.apk';
+    let currentMode = 'auto'; // 'auto' | 'desktop' | 'mobile'
+
+    function isMobileDevice() {
+      const ua = navigator.userAgent || navigator.vendor || window.opera;
+      const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+      const isSmallScreen = window.innerWidth <= 820;
+      const isTouchDevice = (navigator.maxTouchPoints && navigator.maxTouchPoints > 1);
+      return isMobileUA || (isSmallScreen && isTouchDevice);
+    }
+
+    function updateUI(mode) {
+      const badge = document.getElementById('deviceBadge');
+      const subtitle = document.getElementById('deviceSubtitle');
+      const actionBtnText = document.getElementById('launchActionText');
+      const actionIcon = document.getElementById('launchActionIcon');
+      const actionBtn = document.getElementById('launchActionBtn');
+      const helpText = document.getElementById('actionHelpText');
+      const pcBtn = document.getElementById('modePcBtn');
+      const mobileBtn = document.getElementById('modeMobileBtn');
+
+      if (mode === 'desktop') {
+        badge.className = 'text-[11px] font-bold px-3 py-1 rounded-full border bg-slate-900 border-slate-700 text-slate-300 flex items-center gap-1.5';
+        badge.innerHTML = '<i data-lucide="laptop" class="w-3.5 h-3.5 text-blue-400"></i> <span>PC / Laptop Detected</span>';
+        subtitle.textContent = '• Web Portal Access';
+        actionBtnText.textContent = 'OPEN SITE';
+        actionIcon.setAttribute('data-lucide', 'external-link');
+        actionBtn.className = 'w-full sm:w-auto px-8 py-3 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs rounded-xl transition-all shadow-lg shadow-cyan-400/20 shrink-0 flex items-center justify-center gap-2 cursor-pointer';
+        helpText.textContent = 'Detected PC/Laptop: Clicking "OPEN SITE" opens the rider portal in a new browser tab.';
+        pcBtn.className = 'px-2.5 py-1 rounded-lg font-bold transition-all bg-cyan-400/20 text-cyan-400 border border-cyan-400/40';
+        mobileBtn.className = 'px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white';
+      } else {
+        badge.className = 'text-[11px] font-bold px-3 py-1 rounded-full border bg-cyan-950/80 border-cyan-600/50 text-cyan-300 flex items-center gap-1.5';
+        badge.innerHTML = '<i data-lucide="smartphone" class="w-3.5 h-3.5 text-cyan-400"></i> <span>Mobile / Tablet Detected</span>';
+        subtitle.textContent = '• Native App Ready';
+        actionBtnText.textContent = 'DOWNLOAD APP';
+        actionIcon.setAttribute('data-lucide', 'download');
+        actionBtn.className = 'w-full sm:w-auto px-8 py-3 bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-black text-xs rounded-xl transition-all shadow-lg shadow-cyan-400/20 shrink-0 flex items-center justify-center gap-2 cursor-pointer';
+        helpText.textContent = 'Detected Mobile/Tablet: Clicking "DOWNLOAD APP" downloads the application to your device.';
+        pcBtn.className = 'px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white';
+        mobileBtn.className = 'px-2.5 py-1 rounded-lg font-bold transition-all bg-cyan-400/20 text-cyan-400 border border-cyan-400/40';
+      }
+      lucide.createIcons();
+    }
+
+    function setDeviceMode(mode) {
+      currentMode = mode;
+      updateUI(mode);
+    }
+
+    function handleDeviceLaunch() {
+      const mode = (currentMode === 'auto') ? (isMobileDevice() ? 'mobile' : 'desktop') : currentMode;
+      const appUrl = document.getElementById('appUrlInput').value.trim();
+
+      if (mode === 'desktop') {
+        if (appUrl) {
+          window.open(appUrl, '_blank');
+        }
+      } else {
+        triggerApkDownload();
+        openDownloadModal();
       }
     }
+
+    function triggerApkDownload() {
+      const link = document.createElement('a');
+      link.href = APK_URL;
+      link.download = 'BharatBasket-Delivery.apk';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function openDownloadModal() {
+      const modal = document.getElementById('downloadModal');
+      const appUrl = document.getElementById('appUrlInput').value.trim();
+      document.getElementById('instantPwaLink').href = appUrl + '?install=true';
+      modal.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeDownloadModal() {
+      document.getElementById('downloadModal').classList.add('hidden');
+    }
+
+    // Auto-detect on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      const detected = isMobileDevice() ? 'mobile' : 'desktop';
+      updateUI(detected);
+    });
   </script>
 </body>
 </html>
