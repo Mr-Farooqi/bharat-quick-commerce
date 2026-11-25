@@ -34,12 +34,13 @@ exports.updateMyShop = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Shop not found' });
     }
 
-    const { name, phone, description, isOpen, deliveryRadiusKm, bannerImage, address, coordinates } = req.body;
+    const { name, phone, description, isOpen, deliveryRadiusKm, bannerImage, address, coordinates, deliveryMode } = req.body;
 
     if (name) shop.name = name;
     if (phone) shop.phone = phone;
     if (description) shop.description = description;
     if (typeof isOpen !== 'undefined') shop.isOpen = isOpen;
+    if (deliveryMode && ['self', 'delivery_partner'].includes(deliveryMode)) shop.deliveryMode = deliveryMode;
     if (deliveryRadiusKm) shop.deliveryRadiusKm = deliveryRadiusKm;
     if (bannerImage) shop.bannerImage = bannerImage;
     if (address) shop.address = address;
@@ -183,6 +184,7 @@ exports.getSellerOrders = async (req, res, next) => {
 
     const orders = await Order.find(query)
       .populate('customer', 'name email phone')
+      .populate('deliveryPartner', 'name phone vehicleType vehicleNumber')
       .sort({ createdAt: -1 });
 
     res.json({ success: true, count: orders.length, orders });
@@ -236,6 +238,23 @@ exports.updateOrderStatus = async (req, res, next) => {
         orderNumber: order.orderNumber,
         status: order.status,
       });
+
+      // If delivery is by partner and not yet claimed, notify delivery partners
+      if (order.deliveryMode === 'delivery_partner' && !order.deliveryPartner && ['confirmed', 'packing', 'ready_for_pickup'].includes(order.status)) {
+        io.to('delivery_partners').emit('newDeliveryAvailable', {
+          orderId: order._id,
+          orderNumber: order.orderNumber,
+          shopName: shop.name,
+          shopAddress: shop.address,
+          customerName: order.customer.name,
+          deliveryAddress: order.deliveryAddress,
+          totalAmount: order.totalAmount,
+          payout: order.deliveryPartnerPayout || 45,
+          itemsCount: order.items.length,
+          status: order.status,
+          createdAt: order.createdAt,
+        });
+      }
     }
 
     res.json({ success: true, order, message: `Order status updated to '${status}'` });

@@ -179,6 +179,8 @@ exports.placeOrder = async (req, res, next) => {
       },
       paymentMethod: paymentMethod || 'COD',
       paymentStatus: paymentMethod === 'ONLINE' ? 'paid' : 'pending',
+      deliveryMode: shop.deliveryMode || 'delivery_partner',
+      deliveryPartnerPayout: 45,
       status: 'placed',
       statusHistory: [
         {
@@ -207,6 +209,24 @@ exports.placeOrder = async (req, res, next) => {
         createdAt: populatedOrder.createdAt,
       });
       console.log(`[Socket.io] Realtime notification sent to room: shop_${shopId} for order ${populatedOrder.orderNumber}`);
+
+      // If delivery is delegated to delivery partners, notify active delivery partners
+      if (populatedOrder.deliveryMode === 'delivery_partner') {
+        io.to('delivery_partners').emit('newDeliveryAvailable', {
+          orderId: populatedOrder._id,
+          orderNumber: populatedOrder.orderNumber,
+          shopName: shop.name,
+          shopAddress: shop.address,
+          customerName: populatedOrder.customer.name,
+          deliveryAddress: populatedOrder.deliveryAddress,
+          totalAmount: populatedOrder.totalAmount,
+          payout: populatedOrder.deliveryPartnerPayout || 45,
+          itemsCount: populatedOrder.items.length,
+          status: populatedOrder.status,
+          createdAt: populatedOrder.createdAt,
+        });
+        console.log(`[Socket.io] Delivery broadcast emitted to delivery_partners for order ${populatedOrder.orderNumber}`);
+      }
     }
 
     res.status(201).json({

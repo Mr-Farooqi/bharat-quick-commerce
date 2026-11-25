@@ -50,6 +50,11 @@ const ShopSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  deliveryMode: {
+    type: String,
+    enum: ['self', 'delivery_partner'],
+    default: 'delivery_partner',
+  },
   commissionPercent: {
     type: Number,
     default: 10, // Platform commission

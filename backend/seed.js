@@ -77,6 +77,18 @@ const seedData = async () => {
       ]
     });
 
+    // 5. Create Delivery Partner Rider
+    const rider = await User.create({
+      name: 'Vikram Rider',
+      email: 'rider@bharatbasket.com',
+      password: 'rider1234',
+      phone: '9844556677',
+      role: 'delivery_partner',
+      isOnline: true,
+      vehicleType: 'EV Bike',
+      vehicleNumber: 'DL-01-BB-2026',
+    });
+
     console.log('[Seed] Users created. Creating Shops...');
 
     // Approved Shop

@@ -7,8 +7,24 @@ const Order = require('../models/Order');
 
 const autoSeedIfEmpty = async () => {
   try {
+    // Ensure default delivery partner exists even on populated DBs
+    const riderExists = await User.findOne({ role: 'delivery_partner' });
+    if (!riderExists) {
+      await User.create({
+        name: 'Vikram Rider',
+        email: 'rider@bharatbasket.com',
+        password: 'rider1234',
+        phone: '9844556677',
+        role: 'delivery_partner',
+        isOnline: true,
+        vehicleType: 'EV Bike',
+        vehicleNumber: 'DL-01-BB-2026',
+      });
+      console.log('[AutoSeed] Created default delivery partner: rider@bharatbasket.com');
+    }
+
     const userCount = await User.countDocuments();
-    if (userCount > 0) return;
+    if (userCount > 1) return;
 
     console.log('[AutoSeed] Empty database detected. Populating master quick-commerce data...');
 

@@ -16,6 +16,17 @@ const Navbar = ({ title, subtitle }) => {
     }
   };
 
+  const handleToggleDeliveryMode = async () => {
+    if (!shop?._id) return;
+    const newMode = shop?.deliveryMode === 'self' ? 'delivery_partner' : 'self';
+    try {
+      await api.put('/seller/shop', { deliveryMode: newMode });
+      refreshShop();
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to update delivery mode');
+    }
+  };
+
   return (
     <header className="bg-white border-b border-slate-200/80 px-8 py-4 flex items-center justify-between sticky top-0 z-30 shadow-sm">
       <div>
@@ -24,6 +35,31 @@ const Navbar = ({ title, subtitle }) => {
       </div>
 
       <div className="flex items-center gap-4">
+        {/* Delivery Mode Toggle: Self Delivery vs Delivery Partner */}
+        <button
+          onClick={handleToggleDeliveryMode}
+          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border shadow-sm ${
+            shop?.deliveryMode === 'self'
+              ? 'bg-amber-50 text-amber-900 border-amber-300 hover:bg-amber-100'
+              : 'bg-indigo-50 text-indigo-900 border-indigo-300 hover:bg-indigo-100'
+          }`}
+          title="Toggle whether orders are delivered by your own staff or by BharatBasket Delivery Partners"
+        >
+          {shop?.deliveryMode === 'self' ? (
+            <>
+              <span className="text-sm">🏪</span>
+              <span>Self Delivery</span>
+            </>
+          ) : (
+            <>
+              <span className="text-sm">🛵</span>
+              <span>Delivery Partner Fleet</span>
+            </>
+          )}
+        </button>
+
+        <div className="h-6 w-px bg-slate-200" />
+
         {/* Instant Open / Close Store Toggle */}
         <button
           onClick={handleToggleStoreOpen}

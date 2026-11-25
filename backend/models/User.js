@@ -39,8 +39,20 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['customer', 'seller', 'admin'],
+    enum: ['customer', 'seller', 'admin', 'delivery_partner'],
     default: 'customer',
+  },
+  isOnline: {
+    type: Boolean,
+    default: true,
+  },
+  vehicleType: {
+    type: String,
+    default: 'Bike',
+  },
+  vehicleNumber: {
+    type: String,
+    default: 'DL-01-BB-2026',
   },
   addresses: [AddressSchema],
   isActive: {

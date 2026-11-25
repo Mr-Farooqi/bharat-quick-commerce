@@ -38,6 +38,7 @@ const OrderTrackingModal = ({ order, onClose }) => {
       setCurrentOrder((prev) => ({
         ...prev,
         status: data.status,
+        deliveryPartner: data.deliveryPartner || prev.deliveryPartner,
       }));
     });
 
@@ -110,6 +111,28 @@ const OrderTrackingModal = ({ order, onClose }) => {
 
         {/* Order Info & Items */}
         <div className="space-y-3 text-xs">
+          {currentOrder.deliveryPartner && (
+            <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-black text-sm">
+                  🛵
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider">Assigned Delivery Partner</p>
+                  <p className="font-black text-slate-900 text-xs">{currentOrder.deliveryPartner.name}</p>
+                </div>
+              </div>
+              {currentOrder.deliveryPartner.phone && (
+                <a
+                  href={`tel:${currentOrder.deliveryPartner.phone}`}
+                  className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px]"
+                >
+                  Call Rider
+                </a>
+              )}
+            </div>
+          )}
+
           <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
             <span className="text-[10px] font-bold text-slate-400 uppercase block mb-1">
               Delivery Destination

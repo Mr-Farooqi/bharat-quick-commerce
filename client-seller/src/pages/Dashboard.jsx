@@ -19,13 +19,24 @@ import {
 } from 'lucide-react';
 
 const Dashboard = () => {
-  const { shop } = useAuth();
+  const { shop, refreshShop } = useAuth();
   const { incomingOrder, setIncomingOrder } = useSocket();
   const [orders, setOrders] = useState([]);
   const [stats, setStats] = useState(null);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(null);
+
+  const handleToggleDeliveryMode = async () => {
+    if (!shop?._id) return;
+    const newMode = shop?.deliveryMode === 'self' ? 'delivery_partner' : 'self';
+    try {
+      await api.put('/seller/shop', { deliveryMode: newMode });
+      if (refreshShop) refreshShop();
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to toggle delivery mode');
+    }
+  };
 
   const fetchOrdersAndStats = async () => {
     try {
@@ -176,6 +187,47 @@ const Dashboard = () => {
         </div>
       </div>
 
+      {/* Delivery Mode Quick Controller */}
+      <div className={`p-5 rounded-3xl border transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-4 ${
+        shop?.deliveryMode === 'self'
+          ? 'bg-amber-50/70 border-amber-200'
+          : 'bg-indigo-50/70 border-indigo-200'
+      }`}>
+        <div className="flex items-center gap-3">
+          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-sm ${
+            shop?.deliveryMode === 'self' ? 'bg-amber-500 text-white' : 'bg-indigo-600 text-white'
+          }`}>
+            {shop?.deliveryMode === 'self' ? '🏪' : '🛵'}
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-black uppercase tracking-wider text-slate-500">Order Delivery Mode:</span>
+              <span className={`text-xs px-2.5 py-0.5 rounded-full font-black uppercase ${
+                shop?.deliveryMode === 'self' ? 'bg-amber-200 text-amber-900' : 'bg-indigo-200 text-indigo-900'
+              }`}>
+                {shop?.deliveryMode === 'self' ? 'Self Delivery (Store Staff)' : 'Delivery Partner Fleet'}
+              </span>
+            </div>
+            <p className="text-xs text-slate-600 mt-0.5">
+              {shop?.deliveryMode === 'self'
+                ? 'Your store staff will directly handle pickup and doorstep delivery to the customer.'
+                : 'Orders are automatically broadcasted to all active BharatBasket Delivery Partners for instant pickup & delivery.'}
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={handleToggleDeliveryMode}
+          className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all shadow-sm flex items-center gap-2 ${
+            shop?.deliveryMode === 'self'
+              ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
+              : 'bg-amber-600 hover:bg-amber-700 text-white'
+          }`}
+        >
+          <span>Switch to {shop?.deliveryMode === 'self' ? '🛵 Delivery Partner Fleet' : '🏪 Self Delivery'}</span>
+        </button>
+      </div>
+
       {/* Order Terminal Section */}
       <div className="space-y-4">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
@@ -249,6 +301,29 @@ const Dashboard = () => {
                       </p>
                     </div>
 
+                    {/* Delivery Partner Mode & Rider Status */}
+                    <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-100 text-xs flex items-center justify-between">
+                      <span className="font-extrabold text-[11px] text-slate-600 flex items-center gap-1">
+                        {ord.deliveryMode === 'self' ? '🏪 Self Delivery' : '🛵 Partner Fleet'}
+                      </span>
+                      {ord.deliveryMode === 'delivery_partner' ? (
+                        ord.deliveryPartner ? (
+                          <span className="text-[11px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                            {ord.deliveryPartner.name} ({ord.deliveryPartner.phone})
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-md animate-pulse">
+                            📡 Waiting for Rider...
+                          </span>
+                        )
+                      ) : (
+                        <span className="text-[10px] font-bold text-slate-500 bg-slate-200/60 px-2 py-0.5 rounded-md">
+                          Store Staff
+                        </span>
+                      )}
+                    </div>
+
                     {/* Items checklist */}
                     <div className="p-4 space-y-2">
                       <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
@@ -304,14 +379,41 @@ const Dashboard = () => {
                     )}
 
                     {ord.status === 'packing' && (
-                      <button
-                        disabled={actionLoading === ord._id}
-                        onClick={() => handleUpdateStatus(ord._id, 'out_for_delivery')}
-                        className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5"
-                      >
-                        <Truck className="w-3.5 h-3.5" />
-                        <span>Ready / Out</span>
-                      </button>
+                      ord.deliveryMode === 'delivery_partner' ? (
+                        <button
+                          disabled={actionLoading === ord._id}
+                          onClick={() => handleUpdateStatus(ord._id, 'ready_for_pickup')}
+                          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5"
+                        >
+                          <PackageCheck className="w-3.5 h-3.5" />
+                          <span>Packed (Ready for Pickup)</span>
+                        </button>
+                      ) : (
+                        <button
+                          disabled={actionLoading === ord._id}
+                          onClick={() => handleUpdateStatus(ord._id, 'out_for_delivery')}
+                          className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5"
+                        >
+                          <Truck className="w-3.5 h-3.5" />
+                          <span>Dispatch Self</span>
+                        </button>
+                      )
+                    )}
+
+                    {ord.status === 'ready_for_pickup' && (
+                      <div className="flex items-center gap-2">
+                        <span className="text-[11px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2.5 py-1 rounded-xl">
+                          {ord.deliveryPartner ? '🛵 Rider Arriving' : '📡 Rider Pending'}
+                        </span>
+                        <button
+                          disabled={actionLoading === ord._id}
+                          onClick={() => handleUpdateStatus(ord._id, 'out_for_delivery')}
+                          className="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[11px] rounded-xl transition-all"
+                          title="If rider already picked up without clicking"
+                        >
+                          Handed Over
+                        </button>
+                      </div>
                     )}
 
                     {ord.status === 'out_for_delivery' && (

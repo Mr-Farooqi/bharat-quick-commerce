@@ -16,6 +16,7 @@ const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const sellerRoutes = require('./routes/sellerRoutes');
 const customerRoutes = require('./routes/customerRoutes');
+const deliveryRoutes = require('./routes/deliveryRoutes');
 
 const app = express();
 const server = http.createServer(app);
@@ -25,6 +26,7 @@ const allowedOrigins = [
   process.env.CLIENT_CUSTOMER_URL || 'http://localhost:3000',
   process.env.CLIENT_SELLER_URL || 'http://localhost:3001',
   process.env.CLIENT_ADMIN_URL || 'http://localhost:3002',
+  process.env.CLIENT_DELIVERY_URL || 'http://localhost:3003',
 ];
 
 // Setup Socket.io
@@ -68,6 +70,12 @@ io.on('connection', (socket) => {
     console.log(`[Socket.io] Socket ${socket.id} joined customer room: customer_${customerId}`);
   });
 
+  // Join delivery partners broadcast room
+  socket.on('joinDeliveryPartner', () => {
+    socket.join('delivery_partners');
+    console.log(`[Socket.io] Socket ${socket.id} joined broadcast room: delivery_partners`);
+  });
+
   socket.on('disconnect', () => {
     console.log(`[Socket.io] Client disconnected: ${socket.id}`);
   });
@@ -109,6 +117,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/seller', sellerRoutes);
 app.use('/api/customer', customerRoutes);
+app.use('/api/delivery', deliveryRoutes);
 
 // Central Error Handler
 app.use(errorHandler);
@@ -124,6 +133,7 @@ connectDB().then(async () => {
     console.log(`   - Customer Portal expected at: ${process.env.CLIENT_CUSTOMER_URL || 'http://localhost:3000'}`);
     console.log(`   - Seller Portal expected at:   ${process.env.CLIENT_SELLER_URL || 'http://localhost:3001'}`);
     console.log(`   - Admin Portal expected at:    ${process.env.CLIENT_ADMIN_URL || 'http://localhost:3002'}`);
+    console.log(`   - Delivery Portal expected at: ${process.env.CLIENT_DELIVERY_URL || 'http://localhost:3003'}`);
     console.log(`=======================================================`);
   });
 }).catch((err) => {

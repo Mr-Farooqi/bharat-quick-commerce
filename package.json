@@ -6,6 +6,7 @@
     "dev:backend": "cd backend && node --watch server.js",
     "dev:admin": "cd client-admin && npm run dev",
     "dev:seller": "cd client-seller && npm run dev",
-    "dev:customer": "cd client-customer && npm run dev"
+    "dev:customer": "cd client-customer && npm run dev",
+    "dev:delivery": "cd client-delivery && npm run dev"
   }
 }

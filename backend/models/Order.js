@@ -16,7 +16,7 @@ const OrderItemSchema = new mongoose.Schema({
 const OrderStatusHistorySchema = new mongoose.Schema({
   status: {
     type: String,
-    enum: ['placed', 'confirmed', 'packing', 'out_for_delivery', 'delivered', 'cancelled'],
+    enum: ['placed', 'confirmed', 'packing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'cancelled'],
     required: true,
   },
   timestamp: {
@@ -67,8 +67,28 @@ const OrderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['placed', 'confirmed', 'packing', 'out_for_delivery', 'delivered', 'cancelled'],
+    enum: ['placed', 'confirmed', 'packing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'cancelled'],
     default: 'placed',
+  },
+  deliveryMode: {
+    type: String,
+    enum: ['self', 'delivery_partner'],
+    default: 'delivery_partner',
+  },
+  deliveryPartner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+  },
+  deliveryPartnerPayout: {
+    type: Number,
+    default: 45, // Rs. 45 trip payout for delivery partner
+  },
+  pickedUpAt: {
+    type: Date,
+  },
+  deliveredAt: {
+    type: Date,
   },
   paymentMethod: {
     type: String,
