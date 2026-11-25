@@ -54,15 +54,17 @@
       </p>
 
       <!-- Launch Controller -->
-      <div class="mt-8 p-5 sm:p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+      <div class="mt-8 p-5 sm:p-6 rounded-3xl bg-slate-950 border border-slate-800 space-y-4 shadow-xl">
+        
+        <!-- Header & Device Detection Switcher -->
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div class="flex items-center gap-2">
             <span id="deviceBadge" class="text-[11px] font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 transition-all">
-              <i data-lucide="laptop" class="w-3.5 h-3.5 text-blue-400"></i>
+              <i data-lucide="smartphone" class="w-3.5 h-3.5 text-emerald-400"></i>
               <span>Detecting Device...</span>
             </span>
             <span class="text-xs font-semibold text-slate-400 hidden sm:inline" id="deviceSubtitle">
-              • Consumer App Gateway
+              • Official Consumer App
             </span>
           </div>
 
@@ -71,41 +73,132 @@
             <button
               id="modePcBtn"
               onclick="setDeviceMode('desktop')"
-              class="px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white"
+              class="px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white cursor-pointer"
             >
               💻 PC / Laptop
             </button>
             <button
               id="modeMobileBtn"
               onclick="setDeviceMode('mobile')"
-              class="px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white"
+              class="px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white cursor-pointer"
             >
               📱 Mobile / Tablet
             </button>
           </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row items-center gap-3">
-          <input
-            id="appUrlInput"
-            type="text"
-            value="https://bharat-customer.vercel.app"
-            placeholder="Enter customer app URL"
-            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-xs text-white font-mono focus:outline-none focus:border-emerald-400"
-          >
-          <button
-            id="launchActionBtn"
-            onclick="handleDeviceLaunch()"
-            class="w-full sm:w-auto px-8 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs rounded-xl transition-all shadow-lg shadow-emerald-500/20 shrink-0 flex items-center justify-center gap-2 cursor-pointer"
-          >
-            <i id="launchActionIcon" data-lucide="external-link" class="w-4 h-4"></i>
-            <span id="launchActionText">OPEN SITE</span>
-          </button>
+        <!-- 1. DESKTOP VIEW (Shown on PC/Laptop) -->
+        <div id="desktopView" class="space-y-3">
+          <div class="flex flex-col sm:flex-row items-center gap-3">
+            <input
+              id="appUrlInput"
+              type="text"
+              value="https://bharat-customer.vercel.app"
+              placeholder="Enter customer app URL"
+              class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-xs text-white font-mono focus:outline-none focus:border-emerald-400"
+            >
+            <button
+              onclick="openDesktopSite()"
+              class="w-full sm:w-auto px-8 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs rounded-xl transition-all shadow-lg shadow-emerald-500/20 shrink-0 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+              <span>OPEN SITE</span>
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-400">
+            💻 PC / Laptop Mode: Clicking "OPEN SITE" opens the web application in a new browser tab.
+          </p>
         </div>
-        
-        <p id="actionHelpText" class="text-[11px] text-slate-400">
-          Detected PC/Laptop: Clicking "OPEN SITE" opens the web application in a new browser tab.
-        </p>
+
+        <!-- 2. MOBILE VIEW (Shown on Mobile/Tablet) -->
+        <div id="mobileView" class="hidden space-y-4">
+          
+          <!-- STATE A: IDLE (Clean Download Button Only - No URL bar) -->
+          <div id="mobileIdleState" class="space-y-3">
+            <button
+              onclick="startMobileDownload()"
+              class="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 active:scale-[0.98] text-slate-950 font-black text-sm rounded-2xl transition-all shadow-xl shadow-emerald-500/25 flex items-center justify-center gap-3 cursor-pointer"
+            >
+              <i data-lucide="download" class="w-5 h-5 animate-bounce"></i>
+              <span>DOWNLOAD APP (2.8 MB)</span>
+            </button>
+            <div class="flex items-center justify-center gap-4 text-[11px] text-slate-400 font-medium">
+              <span class="flex items-center gap-1">✓ 10-Minute Grocery App</span>
+              <span class="flex items-center gap-1">✓ Android & Mobile Ready</span>
+              <span class="flex items-center gap-1">✓ Fast 1-Tap Download</span>
+            </div>
+          </div>
+
+          <!-- STATE B: DOWNLOADING PROGRESS -->
+          <div id="mobileProgressState" class="hidden p-5 rounded-2xl bg-slate-900 border border-emerald-500/30 space-y-3">
+            <div class="flex items-center justify-between text-xs font-bold">
+              <span class="flex items-center gap-2 text-white">
+                <i data-lucide="loader-2" class="w-4 h-4 text-emerald-400 animate-spin"></i>
+                <span id="downloadStatusText">Downloading BharatBasket Customer App...</span>
+              </span>
+              <span id="progressPercent" class="text-emerald-400 font-mono font-black text-sm">0%</span>
+            </div>
+            
+            <!-- Progress Bar Track -->
+            <div class="w-full bg-slate-950 rounded-full h-3.5 overflow-hidden p-0.5 border border-slate-800">
+              <div id="progressBarFill" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-100 ease-out" style="width: 0%"></div>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-slate-400 font-mono">
+              <span id="downloadSizeText">0.0 MB / 2.8 MB</span>
+              <span class="text-emerald-400 flex items-center gap-1">
+                <i data-lucide="arrow-down-circle" class="w-3.5 h-3.5"></i> Downloading file...
+              </span>
+            </div>
+          </div>
+
+          <!-- STATE C: DOWNLOAD COMPLETED / SUCCESS MESSAGE -->
+          <div id="mobileSuccessState" class="hidden p-5 rounded-2xl bg-gradient-to-br from-emerald-950/80 via-slate-900 to-slate-900 border border-emerald-500/60 space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-2xl bg-emerald-500 text-slate-950 font-black text-xl flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/30">
+                ✓
+              </div>
+              <div>
+                <h4 class="text-sm sm:text-base font-black text-white">App Download Successfully Completed! 🎉</h4>
+                <p class="text-xs text-emerald-400 font-semibold mt-0.5">App install karne ke liye ready hai</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-slate-300 space-y-1">
+              <div class="font-bold text-white flex items-center gap-1.5">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                <span>File saved: <code class="font-mono text-emerald-400">BharatBasket-Customer.apk</code></span>
+              </div>
+              <p class="text-[11px] text-slate-400">
+                Aapke phone ke notification bar mein "Download complete" ka message aa chuka hai. Uspe tap karke install karein!
+              </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2.5">
+              <a
+                id="installAppBtn"
+                href="https://bharat-customer.vercel.app?install=true"
+                target="_blank"
+                class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs rounded-xl transition-all shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <i data-lucide="smartphone" class="w-4 h-4"></i>
+                <span>INSTALL APP / OPEN NOW</span>
+              </a>
+              <button
+                onclick="restartDownload()"
+                class="py-3 px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition-all shrink-0 cursor-pointer"
+              >
+                Download Again
+              </button>
+            </div>
+
+            <p class="text-[11px] text-slate-500 text-center">
+              💡 Tip: Chrome browser mein <strong class="text-slate-300">"Add to Home screen"</strong> se bina file ke bhi direct app install ho jati hai.
+            </p>
+          </div>
+
+        </div>
+
       </div>
     </div>
 
@@ -180,69 +273,6 @@
 
   </main>
 
-  <!-- Mobile Download & Install Modal -->
-  <div id="downloadModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-emerald-500/40 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative space-y-5">
-      <button onclick="closeDownloadModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-
-      <div class="flex items-center gap-3">
-        <img src="assets/logo.webp" alt="BharatBasket" class="w-12 h-12 rounded-2xl object-contain bg-slate-950 p-1 border border-emerald-500/30">
-        <div>
-          <h3 class="font-black text-white text-base">BharatBasket Customer App</h3>
-          <span class="text-xs text-emerald-400 font-bold">Official Application Package • v1.0.0</span>
-        </div>
-      </div>
-
-      <div class="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-800/50 space-y-2">
-        <div class="flex items-center gap-2 text-emerald-300 font-bold text-xs">
-          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
-          <span>App Download Started!</span>
-        </div>
-        <p class="text-[11px] text-slate-300">
-          Package <code class="font-mono text-emerald-400">BharatBasket-Customer.apk</code> is downloading to your device's Downloads folder.
-        </p>
-      </div>
-
-      <div class="space-y-3">
-        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">2 Easy Ways To Use On Mobile:</h4>
-        
-        <!-- Option 1: Instant Standalone Launch / PWA -->
-        <a id="instantPwaLink" href="https://bharat-customer.vercel.app?install=true" target="_blank" class="flex items-center justify-between p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-emerald-500/50 transition-all group">
-          <div class="flex items-center gap-3">
-            <span class="text-xl">⚡</span>
-            <div>
-              <div class="text-xs font-black text-white group-hover:text-emerald-400 transition-colors">Instant App Mode (PWA)</div>
-              <div class="text-[10px] text-slate-400">Adds full-screen app icon to your phone home screen</div>
-            </div>
-          </div>
-          <i data-lucide="arrow-right" class="w-4 h-4 text-slate-500 group-hover:text-emerald-400"></i>
-        </a>
-
-        <!-- Option 2: Direct APK Re-Download -->
-        <a id="apkDirectLink" href="assets/downloads/BharatBasket-Customer.apk" download class="flex items-center justify-between p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-emerald-500/50 transition-all group">
-          <div class="flex items-center gap-3">
-            <span class="text-xl">📦</span>
-            <div>
-              <div class="text-xs font-black text-white group-hover:text-emerald-400 transition-colors">Re-download APK File</div>
-              <div class="text-[10px] text-slate-400">Tap to manually download .apk package again</div>
-            </div>
-          </div>
-          <i data-lucide="download" class="w-4 h-4 text-slate-500 group-hover:text-emerald-400"></i>
-        </a>
-      </div>
-
-      <div class="text-[11px] text-slate-400 bg-slate-950 p-3 rounded-xl border border-slate-800/80">
-        💡 <strong>Mobile Tip:</strong> On Android Chrome, tap <span class="text-white font-bold">⋮ Menu ➔ Add to Home screen</span>. On iPhone Safari, tap <span class="text-white font-bold">Share ➔ Add to Home Screen</span>.
-      </div>
-
-      <button onclick="closeDownloadModal()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300">
-        Close Window
-      </button>
-    </div>
-  </div>
-
   <!-- Footer -->
   <footer class="border-t border-slate-900 bg-slate-950 py-8 text-center text-xs text-slate-600">
     <p>BharatBasket Customer App • Monorepo Package `client-customer`</p>
@@ -252,7 +282,11 @@
     lucide.createIcons();
 
     const APK_URL = 'assets/downloads/BharatBasket-Customer.apk';
+    const APK_NAME = 'BharatBasket-Customer.apk';
+    const TOTAL_MB = 2.8;
+
     let currentMode = 'auto'; // 'auto' | 'desktop' | 'mobile'
+    let downloadInterval = null;
 
     function isMobileDevice() {
       const ua = navigator.userAgent || navigator.vendor || window.opera;
@@ -262,84 +296,114 @@
       return isMobileUA || (isSmallScreen && isTouchDevice);
     }
 
-    function updateUI(mode) {
+    function updateView(mode) {
       const badge = document.getElementById('deviceBadge');
       const subtitle = document.getElementById('deviceSubtitle');
-      const actionBtnText = document.getElementById('launchActionText');
-      const actionIcon = document.getElementById('launchActionIcon');
-      const actionBtn = document.getElementById('launchActionBtn');
-      const helpText = document.getElementById('actionHelpText');
+      const desktopView = document.getElementById('desktopView');
+      const mobileView = document.getElementById('mobileView');
       const pcBtn = document.getElementById('modePcBtn');
       const mobileBtn = document.getElementById('modeMobileBtn');
 
       if (mode === 'desktop') {
+        desktopView.classList.remove('hidden');
+        mobileView.classList.add('hidden');
         badge.className = 'text-[11px] font-bold px-3 py-1 rounded-full border bg-slate-900 border-slate-700 text-slate-300 flex items-center gap-1.5';
         badge.innerHTML = '<i data-lucide="laptop" class="w-3.5 h-3.5 text-blue-400"></i> <span>PC / Laptop Detected</span>';
         subtitle.textContent = '• Web Portal Access';
-        actionBtnText.textContent = 'OPEN SITE';
-        actionIcon.setAttribute('data-lucide', 'external-link');
-        actionBtn.className = 'w-full sm:w-auto px-8 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs rounded-xl transition-all shadow-lg shadow-emerald-500/20 shrink-0 flex items-center justify-center gap-2 cursor-pointer';
-        helpText.textContent = 'Detected PC/Laptop: Clicking "OPEN SITE" opens the web application in a new browser tab.';
-        pcBtn.className = 'px-2.5 py-1 rounded-lg font-bold transition-all bg-emerald-500/20 text-emerald-400 border border-emerald-500/40';
-        mobileBtn.className = 'px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white';
+        pcBtn.className = 'px-2.5 py-1 rounded-lg font-bold transition-all bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 cursor-pointer';
+        mobileBtn.className = 'px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white cursor-pointer';
       } else {
+        desktopView.classList.add('hidden');
+        mobileView.classList.remove('hidden');
         badge.className = 'text-[11px] font-bold px-3 py-1 rounded-full border bg-emerald-950/80 border-emerald-600/50 text-emerald-300 flex items-center gap-1.5';
         badge.innerHTML = '<i data-lucide="smartphone" class="w-3.5 h-3.5 text-emerald-400"></i> <span>Mobile / Tablet Detected</span>';
-        subtitle.textContent = '• Native App Ready';
-        actionBtnText.textContent = 'DOWNLOAD APP';
-        actionIcon.setAttribute('data-lucide', 'download');
-        actionBtn.className = 'w-full sm:w-auto px-8 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs rounded-xl transition-all shadow-lg shadow-emerald-500/20 shrink-0 flex items-center justify-center gap-2 cursor-pointer';
-        helpText.textContent = 'Detected Mobile/Tablet: Clicking "DOWNLOAD APP" downloads the application to your device.';
-        pcBtn.className = 'px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white';
-        mobileBtn.className = 'px-2.5 py-1 rounded-lg font-bold transition-all bg-emerald-500/20 text-emerald-400 border border-emerald-500/40';
+        subtitle.textContent = '• 1-Click App Download';
+        pcBtn.className = 'px-2.5 py-1 rounded-lg font-bold transition-all text-slate-400 hover:text-white cursor-pointer';
+        mobileBtn.className = 'px-2.5 py-1 rounded-lg font-bold transition-all bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 cursor-pointer';
       }
       lucide.createIcons();
     }
 
     function setDeviceMode(mode) {
       currentMode = mode;
-      updateUI(mode);
+      updateView(mode);
     }
 
-    function handleDeviceLaunch() {
-      const mode = (currentMode === 'auto') ? (isMobileDevice() ? 'mobile' : 'desktop') : currentMode;
-      const appUrl = document.getElementById('appUrlInput').value.trim();
-
-      if (mode === 'desktop') {
-        if (appUrl) {
-          window.open(appUrl, '_blank');
-        }
-      } else {
-        triggerApkDownload();
-        openDownloadModal();
+    function openDesktopSite() {
+      const url = document.getElementById('appUrlInput').value.trim();
+      if (url) {
+        window.open(url, '_blank');
       }
     }
 
-    function triggerApkDownload() {
+    function startMobileDownload() {
+      const idle = document.getElementById('mobileIdleState');
+      const progress = document.getElementById('mobileProgressState');
+      const success = document.getElementById('mobileSuccessState');
+      const bar = document.getElementById('progressBarFill');
+      const percentText = document.getElementById('progressPercent');
+      const sizeText = document.getElementById('downloadSizeText');
+      const statusText = document.getElementById('downloadStatusText');
+
+      // Trigger actual file download to user device (does NOT redirect page!)
       const link = document.createElement('a');
       link.href = APK_URL;
-      link.download = 'BharatBasket-Customer.apk';
+      link.download = APK_NAME;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    }
 
-    function openDownloadModal() {
-      const modal = document.getElementById('downloadModal');
-      const appUrl = document.getElementById('appUrlInput').value.trim();
-      document.getElementById('instantPwaLink').href = appUrl + '?install=true';
-      modal.classList.remove('hidden');
+      // Switch to progress bar inline
+      idle.classList.add('hidden');
+      progress.classList.remove('hidden');
+      success.classList.add('hidden');
       lucide.createIcons();
+
+      let progressVal = 0;
+      if (downloadInterval) clearInterval(downloadInterval);
+
+      downloadInterval = setInterval(() => {
+        const increment = Math.random() * 14 + 6;
+        progressVal += increment;
+
+        if (progressVal >= 100) {
+          progressVal = 100;
+          clearInterval(downloadInterval);
+
+          bar.style.width = '100%';
+          percentText.textContent = '100%';
+          sizeText.textContent = `${TOTAL_MB.toFixed(1)} MB / ${TOTAL_MB.toFixed(1)} MB`;
+          statusText.textContent = 'Download Complete!';
+
+          setTimeout(() => {
+            progress.classList.add('hidden');
+            success.classList.remove('hidden');
+            lucide.createIcons();
+          }, 350);
+        } else {
+          bar.style.width = `${progressVal}%`;
+          percentText.textContent = `${Math.floor(progressVal)}%`;
+          const currentMB = ((progressVal / 100) * TOTAL_MB).toFixed(1);
+          sizeText.textContent = `${currentMB} MB / ${TOTAL_MB.toFixed(1)} MB`;
+        }
+      }, 100);
     }
 
-    function closeDownloadModal() {
-      document.getElementById('downloadModal').classList.add('hidden');
+    function restartDownload() {
+      const idle = document.getElementById('mobileIdleState');
+      const progress = document.getElementById('mobileProgressState');
+      const success = document.getElementById('mobileSuccessState');
+      idle.classList.remove('hidden');
+      progress.classList.add('hidden');
+      success.classList.add('hidden');
+      lucide.createIcons();
+      startMobileDownload();
     }
 
     // Auto-detect on page load
     window.addEventListener('DOMContentLoaded', () => {
       const detected = isMobileDevice() ? 'mobile' : 'desktop';
-      updateUI(detected);
+      updateView(detected);
     });
   </script>
 </body>
