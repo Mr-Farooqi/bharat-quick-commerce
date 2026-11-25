@@ -1,17 +1,28 @@
 import React from 'react';
-import { Bell, Sparkles, ExternalLink } from 'lucide-react';
+import { Bell, Sparkles, ExternalLink, Menu } from 'lucide-react';
 
-const Navbar = ({ title, subtitle }) => {
+const Navbar = ({ title, subtitle, onOpenMobileMenu }) => {
   return (
-    <header className="bg-white border-b border-slate-200/80 px-8 py-4 flex items-center justify-between sticky top-0 z-30 shadow-sm backdrop-blur-md bg-white/95">
-      <div>
-        <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">{title}</h1>
-        {subtitle && <p className="text-xs text-slate-500 font-medium mt-0.5">{subtitle}</p>}
+    <header className="bg-white border-b border-slate-200/80 px-4 sm:px-6 md:px-8 py-3 sm:py-4 flex flex-wrap items-center justify-between gap-3 sticky top-0 z-30 shadow-xs backdrop-blur-md bg-white/95">
+      <div className="flex items-center gap-2.5">
+        {/* Mobile Hamburger Menu Toggle */}
+        <button
+          onClick={onOpenMobileMenu}
+          className="p-1.5 -ml-1 text-slate-600 hover:text-slate-900 rounded-lg md:hidden cursor-pointer hover:bg-slate-100"
+          title="Open Menu"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+
+        <div>
+          <h1 className="text-base sm:text-lg md:text-xl font-extrabold text-slate-900 tracking-tight line-clamp-1">{title}</h1>
+          {subtitle && <p className="text-[11px] sm:text-xs text-slate-500 font-medium hidden sm:block mt-0.5">{subtitle}</p>}
+        </div>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
         {/* Quick link badges to other portals */}
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden lg:flex items-center gap-2">
           <a
             href="http://localhost:3001"
             target="_blank"
@@ -32,11 +43,10 @@ const Navbar = ({ title, subtitle }) => {
           </a>
         </div>
 
-        <div className="h-6 w-px bg-slate-200" />
-
-        <div className="flex items-center gap-2 text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
+        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>Central API Live (:5000)</span>
+          <span className="hidden sm:inline">Central API Live (:5000)</span>
+          <span className="sm:hidden">API Live</span>
         </div>
       </div>
     </header>

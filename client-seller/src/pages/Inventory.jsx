@@ -111,19 +111,19 @@ const Inventory = () => {
   );
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-3 sm:p-6 md:p-8 space-y-6">
       {/* Top Bar */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 shadow-xs">
         <div>
           <h2 className="text-base font-extrabold text-slate-900">Inventory & Pricing Management</h2>
           <p className="text-xs text-slate-500 mt-0.5">Control live shelf availability, custom store prices, and stock counts</p>
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-sm transition-all"
+          className="w-full sm:w-auto px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
         >
           <Plus className="w-4 h-4" />
-          <span>Stock Items from Master Catalog ({availableMaster.length})</span>
+          <span>Stock Items ({availableMaster.length})</span>
         </button>
       </div>
 

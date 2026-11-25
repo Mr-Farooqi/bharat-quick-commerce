@@ -138,7 +138,7 @@ const DeliveryDashboard = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 md:px-8 py-6 space-y-6">
+    <div className="max-w-6xl mx-auto px-3 sm:px-6 md:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6">
       {/* Duty Offline Notice */}
       {!user?.isOnline && (
         <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between gap-4">
@@ -183,33 +183,33 @@ const DeliveryDashboard = () => {
       )}
 
       {/* Quick KPI Stat Bar */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Today's Earnings</span>
-          <h3 className="text-2xl font-black text-emerald-400 mt-1">₹{historyData.todayEarnings}</h3>
-          <p className="text-[11px] text-slate-500 mt-0.5">{historyData.todayDeliveries} trips completed today</p>
+          <h3 className="text-xl sm:text-2xl font-black text-emerald-400 mt-1">₹{historyData.todayEarnings}</h3>
+          <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5">{historyData.todayDeliveries} trips today</p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
+        <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Payout</span>
-          <h3 className="text-2xl font-black text-yellow-400 mt-1">₹{historyData.totalEarnings}</h3>
-          <p className="text-[11px] text-slate-500 mt-0.5">{historyData.totalDeliveries} all-time deliveries</p>
+          <h3 className="text-xl sm:text-2xl font-black text-yellow-400 mt-1">₹{historyData.totalEarnings}</h3>
+          <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5">{historyData.totalDeliveries} total deliveries</p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
+        <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Active Mission</span>
-          <h3 className="text-2xl font-black text-white mt-1">
+          <h3 className="text-xl sm:text-2xl font-black text-white mt-1">
             {activeOrder ? '1 Trip 🛵' : 'Idle 💤'}
           </h3>
-          <p className="text-[11px] text-slate-500 mt-0.5">
+          <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5 truncate">
             {activeOrder ? activeOrder.status.replace(/_/g, ' ') : 'Ready for next order'}
           </p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
+        <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Available Queue</span>
-          <h3 className="text-2xl font-black text-white mt-1">{availableOrders.length} Trips</h3>
-          <p className="text-[11px] text-slate-500 mt-0.5">Live store broadcasts</p>
+          <h3 className="text-xl sm:text-2xl font-black text-white mt-1">{availableOrders.length} Trips</h3>
+          <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5">Live broadcasts</p>
         </div>
       </div>
 
@@ -445,19 +445,21 @@ const DeliveryDashboard = () => {
                   <button
                     onClick={() => handlePickup(activeOrder._id)}
                     disabled={actionLoading}
-                    className="flex-1 py-4 rounded-2xl bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black text-sm shadow-xl shadow-yellow-400/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="flex-1 py-3.5 sm:py-4 px-4 rounded-2xl bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black text-xs sm:text-sm shadow-xl shadow-yellow-400/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
-                    <PackageCheck className="w-5 h-5" />
-                    <span>CONFIRM STORE PICKUP (I HAVE THE PACKAGE) 📦</span>
+                    <PackageCheck className="w-5 h-5 shrink-0" />
+                    <span className="hidden sm:inline">CONFIRM STORE PICKUP (I HAVE THE PACKAGE) 📦</span>
+                    <span className="sm:hidden">CONFIRM STORE PICKUP 📦</span>
                   </button>
                 ) : (
                   <button
                     onClick={() => handleDeliver(activeOrder._id)}
                     disabled={actionLoading}
-                    className="flex-1 py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm shadow-xl shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="flex-1 py-3.5 sm:py-4 px-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs sm:text-sm shadow-xl shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
-                    <CheckCircle2 className="w-5 h-5" />
-                    <span>CONFIRM DELIVERY (HANDED OVER TO CUSTOMER) ✅</span>
+                    <CheckCircle2 className="w-5 h-5 shrink-0" />
+                    <span className="hidden sm:inline">CONFIRM DELIVERY (HANDED OVER TO CUSTOMER) ✅</span>
+                    <span className="sm:hidden">CONFIRM DELIVERY ✅</span>
                   </button>
                 )}
               </div>

@@ -45,8 +45,8 @@ const StoreSettings = () => {
   };
 
   return (
-    <div className="p-8 max-w-3xl space-y-6">
-      <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+    <div className="p-3 sm:p-6 md:p-8 max-w-3xl space-y-6">
+      <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 shadow-xs">
         <h2 className="text-base font-extrabold text-slate-900">Store Profile & Operating Settings</h2>
         <p className="text-xs text-slate-500 mt-0.5">Configure your store listing visible to customers in your delivery zone</p>
       </div>

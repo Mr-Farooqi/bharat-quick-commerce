@@ -82,12 +82,12 @@ const Dashboard = ({ setActiveTab }) => {
   ];
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-3 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
       {/* Alert if pending shops */}
       {stats.totalPendingShops > 0 && (
-        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
+        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-700 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-700 flex items-center justify-center font-bold shrink-0">
               <ShieldAlert className="w-5 h-5 text-amber-600" />
             </div>
             <div>
@@ -101,7 +101,7 @@ const Dashboard = ({ setActiveTab }) => {
           </div>
           <button
             onClick={() => setActiveTab('shops')}
-            className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-extrabold rounded-xl transition-colors shadow-sm"
+            className="w-full sm:w-auto px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-extrabold rounded-xl transition-colors shadow-sm"
           >
             Review Now
           </button>
@@ -109,7 +109,7 @@ const Dashboard = ({ setActiveTab }) => {
       )}
 
       {/* Primary KPI Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {cards.map((card, i) => {
           const Icon = card.icon;
           return (
@@ -142,9 +142,9 @@ const Dashboard = ({ setActiveTab }) => {
       </div>
 
       {/* Secondary Stats Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+        <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
             <Store className="w-6 h-6" />
           </div>
           <div>
@@ -154,8 +154,8 @@ const Dashboard = ({ setActiveTab }) => {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+        <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
             <Users className="w-6 h-6" />
           </div>
           <div>
@@ -165,8 +165,8 @@ const Dashboard = ({ setActiveTab }) => {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
+        <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
             <Package className="w-6 h-6" />
           </div>
           <div>
@@ -178,15 +178,15 @@ const Dashboard = ({ setActiveTab }) => {
       </div>
 
       {/* Recent Orders Overview */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-sm">
-        <div className="flex items-center justify-between mb-6">
+      <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/80 p-4 sm:p-6 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div>
             <h3 className="text-base font-extrabold text-slate-900">Live Platform Orders</h3>
             <p className="text-xs text-slate-500">Real-time status of latest orders placed across all merchant shops</p>
           </div>
           <button
             onClick={() => setActiveTab('orders')}
-            className="text-xs font-bold text-yellow-600 hover:text-yellow-700 bg-yellow-50 px-3.5 py-1.5 rounded-xl border border-yellow-200 transition-colors"
+            className="w-full sm:w-auto text-center text-xs font-bold text-yellow-600 hover:text-yellow-700 bg-yellow-50 px-3.5 py-1.5 rounded-xl border border-yellow-200 transition-colors"
           >
             View All Orders →
           </button>

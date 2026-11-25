@@ -77,9 +77,9 @@ const Home = ({ search, setSearch }) => {
         setActiveCategory={setActiveCategory}
       />
 
-      <div className="max-w-7xl mx-auto px-4 space-y-6">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 space-y-4 sm:space-y-6">
         {/* Promotional Banner */}
-        <div className="rounded-3xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-300 p-6 md:p-8 text-slate-950 flex flex-col md:flex-row items-center justify-between gap-6 shadow-md relative overflow-hidden">
+        <div className="rounded-2xl sm:rounded-3xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-300 p-4 sm:p-6 md:p-8 text-slate-950 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 shadow-md relative overflow-hidden">
           <div className="space-y-2 max-w-lg z-10">
             <span className="px-3 py-1 rounded-full bg-slate-950 text-yellow-300 font-extrabold text-[10px] tracking-wider uppercase inline-flex items-center gap-1.5 shadow-sm">
               <Sparkles className="w-3 h-3 text-yellow-400" />
@@ -172,7 +172,7 @@ const Home = ({ search, setSearch }) => {
               <p className="text-xs text-slate-400 mt-1">Try another keyword or select All Categories.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
               {filteredProducts.map((item) => (
                 <ProductCard key={item._id} item={item} shop={activeShop} />
               ))}

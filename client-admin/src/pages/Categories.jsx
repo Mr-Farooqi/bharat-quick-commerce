@@ -60,16 +60,16 @@ const Categories = () => {
   };
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-3 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
       {/* Header bar */}
-      <div className="flex items-center justify-between bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm">
         <div>
           <h2 className="text-base font-extrabold text-slate-900">Master Grocery Categories</h2>
           <p className="text-xs text-slate-500 mt-0.5">Global categories displayed in the customer browsing catalog</p>
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="px-4 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-bold rounded-xl text-xs flex items-center gap-2 shadow-sm transition-all"
+          className="w-full sm:w-auto justify-center px-4 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-bold rounded-xl text-xs flex items-center gap-2 shadow-sm transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>Add New Category</span>
@@ -82,7 +82,7 @@ const Categories = () => {
           <div className="w-8 h-8 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-5">
           {categories.map((cat) => (
             <div
               key={cat._id}

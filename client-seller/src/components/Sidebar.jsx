@@ -6,11 +6,12 @@ import {
   LogOut,
   ChevronRight,
   Sparkles,
-  ShoppingBag
+  ShoppingBag,
+  X
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-const Sidebar = ({ activeTab, setActiveTab }) => {
+const Sidebar = ({ activeTab, setActiveTab, mobileMenuOpen, setMobileMenuOpen }) => {
   const { logout, user, shop } = useAuth();
 
   const menuItems = [
@@ -19,20 +20,36 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
     { id: 'settings', label: 'Store Profile & Hours', icon: Store },
   ];
 
-  return (
-    <aside className="w-64 bg-white border-r border-slate-200/80 min-h-screen flex flex-col justify-between shadow-sm">
+  const handleSelectTab = (id) => {
+    setActiveTab(id);
+    if (setMobileMenuOpen) setMobileMenuOpen(false);
+  };
+
+  const sidebarContent = (
+    <div className="flex flex-col justify-between h-full">
       <div>
         {/* Brand header */}
-        <div className="p-6 border-b border-slate-100 flex items-center gap-3">
-          <img src="/logo.webp" alt="BharatBasket" className="w-10 h-10 rounded-xl object-contain shadow-md shadow-orange-400/20" />
-          <div>
-            <div className="font-extrabold text-lg tracking-tight flex items-center gap-1 text-slate-900">
-              Bharat<span className="text-emerald-600 font-black">Basket</span>
-            </div>
-            <div className="text-[11px] font-bold text-slate-400 tracking-wider uppercase">
-              Merchant Partner
+        <div className="p-5 md:p-6 border-b border-slate-100 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img src="/logo.webp" alt="BharatBasket" className="w-10 h-10 rounded-xl object-contain shadow-md shadow-orange-400/20" />
+            <div>
+              <div className="font-extrabold text-lg tracking-tight flex items-center gap-1 text-slate-900">
+                Bharat<span className="text-emerald-600 font-black">Basket</span>
+              </div>
+              <div className="text-[11px] font-bold text-slate-400 tracking-wider uppercase">
+                Merchant Partner
+              </div>
             </div>
           </div>
+          {/* Mobile close button */}
+          {setMobileMenuOpen && (
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 md:hidden cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
         </div>
 
         {/* Shop Badge Card */}
@@ -59,8 +76,8 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
             return (
               <button
                 key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-semibold transition-all ${
+                onClick={() => handleSelectTab(item.id)}
+                className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
                   isActive
                     ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20 font-bold'
                     : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
@@ -92,13 +109,35 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
           <button
             onClick={logout}
             title="Logout"
-            className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors flex-shrink-0"
+            className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors flex-shrink-0 cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
           </button>
         </div>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Persistent Sidebar */}
+      <aside className="hidden md:flex w-64 bg-white border-r border-slate-200/80 min-h-screen flex-col justify-between shadow-sm shrink-0">
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile Slide-out Drawer */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 md:hidden flex">
+          <div
+            className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs transition-opacity"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div className="relative w-72 max-w-[80vw] bg-white h-full flex flex-col justify-between shadow-2xl z-10">
+            {sidebarContent}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

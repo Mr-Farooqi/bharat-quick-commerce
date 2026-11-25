@@ -45,9 +45,9 @@ const Orders = () => {
   };
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-3 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
       {/* Header, Filter and Search */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4">
         <div>
           <h2 className="text-base font-extrabold text-slate-900">Platform Orders Monitor</h2>
           <p className="text-xs text-slate-500 mt-0.5">Real-time quick-commerce orders across all dark stores</p>

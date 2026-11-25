@@ -77,9 +77,9 @@ const Products = () => {
   });
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-3 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
       {/* Top Header & Search */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm">
         <div>
           <h2 className="text-base font-extrabold text-slate-900">Master Product Catalog</h2>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -88,7 +88,7 @@ const Products = () => {
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="px-4 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-bold rounded-xl text-xs flex items-center gap-2 shadow-sm transition-all"
+          className="w-full sm:w-auto justify-center px-4 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-bold rounded-xl text-xs flex items-center gap-2 shadow-sm transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>Add Master Product</span>
@@ -96,8 +96,8 @@ const Products = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
-        <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 bg-white p-3 sm:p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+        <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
           <button
             onClick={() => setSelectedCat('all')}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors whitespace-nowrap ${
@@ -143,7 +143,7 @@ const Products = () => {
           <p className="text-xs text-slate-400 mt-1">Try another category filter or add a new master item.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
           {filteredProducts.map((p) => (
             <div
               key={p._id}

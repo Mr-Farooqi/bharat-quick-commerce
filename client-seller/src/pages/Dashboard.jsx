@@ -104,11 +104,11 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-3 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
       {/* Live Order Incoming Modal Alert */}
       {incomingOrder && (
         <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-4 border-yellow-400 animate-bounce-once">
+          <div className="bg-white rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl border-4 border-yellow-400 animate-bounce-once">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-rose-500 animate-ping" />
@@ -161,29 +161,29 @@ const Dashboard = () => {
       )}
 
       {/* KPI Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Gross Sales</span>
-          <h3 className="text-2xl font-black text-slate-900 mt-2">₹{stats?.grossRevenue || 0}</h3>
-          <p className="text-xs text-slate-500 mt-1">Total revenue generated</p>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+        <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200/80 shadow-xs">
+          <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider">Gross Sales</span>
+          <h3 className="text-lg sm:text-2xl font-black text-slate-900 mt-1 sm:mt-2">₹{stats?.grossRevenue || 0}</h3>
+          <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 sm:mt-1 hidden sm:block">Total revenue generated</p>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm">
-          <span className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">Net Store Payout</span>
-          <h3 className="text-2xl font-black text-emerald-700 mt-2">₹{stats?.netPayout || 0}</h3>
-          <p className="text-xs text-slate-500 mt-1">After 10% platform fee</p>
+        <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200/80 shadow-xs">
+          <span className="text-[10px] sm:text-[11px] font-bold text-emerald-600 uppercase tracking-wider">Net Payout</span>
+          <h3 className="text-lg sm:text-2xl font-black text-emerald-700 mt-1 sm:mt-2">₹{stats?.netPayout || 0}</h3>
+          <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 sm:mt-1 hidden sm:block">After 10% platform fee</p>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm">
-          <span className="text-[11px] font-bold text-amber-600 uppercase tracking-wider">Pending Orders</span>
-          <h3 className="text-2xl font-black text-amber-700 mt-2">{stats?.pendingOrders || 0}</h3>
-          <p className="text-xs text-slate-500 mt-1">Requires immediate packing</p>
+        <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200/80 shadow-xs">
+          <span className="text-[10px] sm:text-[11px] font-bold text-amber-600 uppercase tracking-wider">Pending Orders</span>
+          <h3 className="text-lg sm:text-2xl font-black text-amber-700 mt-1 sm:mt-2">{stats?.pendingOrders || 0}</h3>
+          <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 sm:mt-1 hidden sm:block">Requires immediate packing</p>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Stocked Products</span>
-          <h3 className="text-2xl font-black text-slate-900 mt-2">{stats?.totalProducts || 0}</h3>
-          <p className="text-xs text-slate-500 mt-1">{stats?.outOfStock || 0} currently out of stock</p>
+        <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200/80 shadow-xs">
+          <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider">Products</span>
+          <h3 className="text-lg sm:text-2xl font-black text-slate-900 mt-1 sm:mt-2">{stats?.totalProducts || 0}</h3>
+          <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 sm:mt-1 hidden sm:block">{stats?.outOfStock || 0} out of stock</p>
         </div>
       </div>
 
