@@ -118,6 +118,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/seller', sellerRoutes);
 app.use('/api/customer', customerRoutes);
 app.use('/api/delivery', deliveryRoutes);
+app.use('/delivery', deliveryRoutes);
 
 // Central Error Handler
 app.use(errorHandler);

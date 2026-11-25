@@ -10,6 +10,10 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
+  // Strip duplicate /api if present in request url
+  if (config.url && config.url.startsWith('/api/')) {
+    config.url = config.url.replace(/^\/api/, '');
+  }
   const token = localStorage.getItem('bharat_delivery_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

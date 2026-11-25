@@ -11,7 +11,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
     if (toggling) return;
     setToggling(true);
     try {
-      const res = await api.put('/api/delivery/duty', { isOnline: !user?.isOnline });
+      const res = await api.put('/delivery/duty', { isOnline: !user?.isOnline });
       if (res.data.success) {
         setUser(prev => ({ ...prev, isOnline: res.data.isOnline }));
       }

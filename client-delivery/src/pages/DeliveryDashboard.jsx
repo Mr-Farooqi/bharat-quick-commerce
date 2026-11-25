@@ -36,9 +36,9 @@ const DeliveryDashboard = () => {
   const fetchData = async () => {
     try {
       const [availRes, activeRes, histRes] = await Promise.all([
-        api.get('/api/delivery/available'),
-        api.get('/api/delivery/active'),
-        api.get('/api/delivery/history'),
+        api.get('/delivery/available'),
+        api.get('/delivery/active'),
+        api.get('/delivery/history'),
       ]);
 
       if (availRes.data.success) {
@@ -84,7 +84,7 @@ const DeliveryDashboard = () => {
   const handleAcceptOrder = async (orderId) => {
     setActionLoading(true);
     try {
-      const res = await api.post(`/api/delivery/orders/${orderId}/accept`);
+      const res = await api.post(`/delivery/orders/${orderId}/accept`);
       if (res.data.success) {
         setActiveOrder(res.data.order);
         setActiveTab('active');
@@ -103,7 +103,7 @@ const DeliveryDashboard = () => {
   const handlePickup = async (orderId) => {
     setActionLoading(true);
     try {
-      const res = await api.put(`/api/delivery/orders/${orderId}/pickup`);
+      const res = await api.put(`/delivery/orders/${orderId}/pickup`);
       if (res.data.success) {
         setActiveOrder(res.data.order);
         fetchData();
@@ -119,7 +119,7 @@ const DeliveryDashboard = () => {
   const handleDeliver = async (orderId) => {
     setActionLoading(true);
     try {
-      const res = await api.put(`/api/delivery/orders/${orderId}/deliver`);
+      const res = await api.put(`/delivery/orders/${orderId}/deliver`);
       if (res.data.success) {
         confetti({
           particleCount: 100,
