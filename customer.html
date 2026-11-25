@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer App - BharatBasket 10-Minute Grocery Shopping</title>
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="apple-touch-icon" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-emerald-500 selection:text-white antialiased flex flex-col justify-between">
+
+  <!-- Top Navigation -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-xl sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-white transition-colors">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span>Back to Ecosystem Hub</span>
+      </a>
+
+      <div class="flex items-center gap-2">
+        <img src="assets/logo.webp" alt="BharatBasket" class="w-8 h-8 rounded-xl object-contain">
+        <span class="font-black text-sm text-white">Bharat<span class="text-emerald-400">Basket</span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-4 py-12 space-y-8 flex-1">
+    
+    <!-- Hero Banner -->
+    <div class="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-emerald-950/60 via-slate-900 to-slate-900 border border-emerald-500/30 shadow-2xl relative overflow-hidden">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl">
+          🛍️
+        </span>
+        <span class="text-xs font-black uppercase tracking-wider text-emerald-400">
+          Consumer Gateway • Port 3000
+        </span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+        BharatBasket Customer App
+      </h1>
+      <p class="text-slate-300 text-sm sm:text-base mt-2 leading-relaxed">
+        The flagship consumer application built with React, Vite, and Tailwind CSS. Provides instant grocery discovery, lightning cart checkout, and live WebSocket order tracking.
+      </p>
+
+      <!-- Launch Controller -->
+      <div class="mt-8 p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Direct Launch Link:</span>
+          <span class="text-[10px] font-bold text-emerald-400 bg-emerald-950 px-2.5 py-0.5 rounded-full border border-emerald-800">
+            Live on Vercel
+          </span>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center gap-3">
+          <input
+            id="appUrlInput"
+            type="text"
+            value="https://bharat-customer.vercel.app"
+            placeholder="Enter customer app URL"
+            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-xs text-white font-mono focus:outline-none focus:border-emerald-400"
+          >
+          <button
+            onclick="launchApp()"
+            class="w-full sm:w-auto px-8 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs rounded-xl transition-all shadow-lg shadow-emerald-500/20 shrink-0 flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <i data-lucide="external-link" class="w-4 h-4"></i>
+            <span>OPEN LIVE APP</span>
+          </button>
+        </div>
+        <p class="text-[11px] text-slate-500">
+          Tip: If your Vercel deployment has a custom URL, you can edit it above and click "OPEN LIVE APP" directly!
+        </p>
+      </div>
+    </div>
+
+    <!-- Demo Credentials Card -->
+    <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <span class="text-[10px] font-black uppercase text-amber-400 tracking-wider block">Pre-Seeded Demo Account</span>
+        <h4 class="text-sm font-bold text-white mt-0.5">Instant Testing Credentials</h4>
+      </div>
+      <div class="flex items-center gap-4 text-xs font-mono">
+        <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300">
+          Email: <strong class="text-white">customer@bharatbasket.com</strong>
+        </div>
+        <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300">
+          Password: <strong class="text-amber-400">customer1234</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature Grid -->
+    <div class="space-y-4">
+      <h3 class="text-lg font-black text-white">Core Architectural Features</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        
+        <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">
+            ⚡
+          </div>
+          <h4 class="text-sm font-bold text-white">Sub-10-Minute Dispatch</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Connects users to the nearest approved dark store or local grocery vendor within an 8km geospatial radius.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold">
+            🛒
+          </div>
+          <h4 class="text-sm font-bold text-white">Real-Time Cart Drawer</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Instant stock verification, free delivery threshold calculation (₹199+), and atomic inventory subtraction upon placement.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-bold">
+            🛵
+          </div>
+          <h4 class="text-sm font-bold text-white">Live Socket.io Stepper</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Tracks status changes in real-time from Placed ➔ Packing ➔ Out for Delivery ➔ Delivered, displaying assigned rider name and phone!
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold">
+            💳
+          </div>
+          <h4 class="text-sm font-bold text-white">Payment Flexibility</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Full support for Cash on Delivery (COD) and Online Mockup Gateway with immediate digital invoice generation.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-900 bg-slate-950 py-8 text-center text-xs text-slate-600">
+    <p>BharatBasket Customer App • Monorepo Package `client-customer`</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    function launchApp() {
+      const url = document.getElementById('appUrlInput').value.trim();
+      if (url) {
+        window.open(url, '_blank');
+      }
+    }
+  </script>
+</body>
+</html>
