@@ -42,8 +42,8 @@ const Header = ({ search, setSearch, onOpenLogin, onOpenOrders }) => {
               <Clock className="w-3.5 h-3.5 text-emerald-600" />
               <span>Delivery in {location.deliveryTime}</span>
             </div>
-            <div className="flex items-center gap-1 text-[11px] text-slate-500 font-medium truncate max-w-[200px]">
-              <span className="truncate">{location.title}</span>
+            <div className="flex items-center gap-1 text-[11px] text-slate-500 font-medium truncate max-w-[220px]">
+              <span className="truncate">{location.gali ? `${location.gali}, ${location.area || location.city}` : location.title}</span>
               <ChevronDown className="w-3 h-3 text-slate-400 flex-shrink-0" />
             </div>
           </button>
@@ -166,7 +166,7 @@ const Header = ({ search, setSearch, onOpenLogin, onOpenOrders }) => {
         >
           <Clock className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
           <span className="text-emerald-700 font-black">{location.deliveryTime}:</span>
-          <span className="text-slate-600 truncate">{location.title}</span>
+          <span className="text-slate-600 truncate">{location.gali ? `${location.gali}, ${location.area || location.city}` : location.title}</span>
           <ChevronDown className="w-3 h-3 text-slate-400 shrink-0" />
         </button>
       </div>

@@ -31,11 +31,11 @@ const CheckoutModal = ({ isOpen, onClose, onOrderPlaced }) => {
 
   if (!isOpen) return null;
 
-  const addresses = user?.addresses || [
+  const addresses = user?.addresses?.length > 0 ? user.addresses : [
     {
       label: 'Home',
-      fullAddress: location.title,
-      city: 'Delhi',
+      fullAddress: location.fullAddress || location.title,
+      city: location.city || 'New Delhi',
       pincode: location.pincode,
     }
   ];
@@ -65,8 +65,8 @@ const CheckoutModal = ({ isOpen, onClose, onOrderPlaced }) => {
     try {
       const chosenAddr = addresses[selectedAddressIndex] || {
         label: 'Home',
-        fullAddress: location.title,
-        city: 'Delhi',
+        fullAddress: location.fullAddress || location.title,
+        city: location.city || 'New Delhi',
         pincode: location.pincode,
       };
 

@@ -149,9 +149,16 @@ const Home = ({ search, setSearch }) => {
             <div className="p-3.5 rounded-2xl bg-rose-50/60 border border-rose-200 text-xs text-slate-800 flex items-center justify-between max-w-md mx-auto">
               <div className="flex items-center gap-2.5 truncate pr-2 text-left">
                 <MapPin className="w-4 h-4 text-rose-600 shrink-0" />
-                <span className="font-extrabold truncate">{location.title}</span>
+                <div className="truncate">
+                  <span className="font-extrabold truncate block">
+                    {location.gali ? `${location.gali}, ${location.area}` : location.title}
+                  </span>
+                  <span className="text-[10px] text-slate-500 truncate block">
+                    {location.city} {location.pincode ? `• ${location.pincode}` : ''}
+                  </span>
+                </div>
               </div>
-              <span className="text-[10px] font-black bg-rose-200 text-rose-800 px-2 py-0.5 rounded-md shrink-0">
+              <span className="text-[10px] font-black bg-rose-200 text-rose-800 px-2.5 py-1 rounded-md shrink-0">
                 &gt; 2 km Away
               </span>
             </div>
