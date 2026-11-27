@@ -26,8 +26,8 @@ const Header = ({ search, setSearch, onOpenLogin, onOpenOrders }) => {
         {/* Left: Brand + Delivery Location */}
         <div className="flex items-center gap-3 sm:gap-6 shrink-0">
           {/* Bharat Logo */}
-          <div className="flex items-center gap-2 cursor-pointer select-none">
-            <img src="/logo.webp" alt="BharatBasket" className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl object-contain shadow-md shadow-orange-400/20" />
+          <div className="flex items-center gap-2 cursor-pointer select-none group">
+            <img src="/logo.webp" alt="BharatBasket" className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl object-contain shadow-md shadow-amber-400/25 group-hover:scale-105 transition-transform" />
             <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 hidden md:inline">
               Bharat<span className="text-emerald-600 font-black">Basket</span>
             </span>

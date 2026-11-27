@@ -43,9 +43,7 @@ const CartDrawer = ({ onProceedToCheckout, onOpenLogin }) => {
           {/* Header */}
           <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 via-orange-500 to-yellow-400 flex items-center justify-center font-black text-slate-950 text-sm">
-                B
-              </div>
+              <img src="/logo.webp" alt="BharatBasket" className="w-9 h-9 rounded-xl object-contain shadow-sm shadow-amber-400/20" />
               <div>
                 <h3 className="font-extrabold text-sm text-slate-900">My Cart ({itemCount})</h3>
                 {activeShop && (
