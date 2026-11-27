@@ -4,6 +4,7 @@ import { LocationProvider, useLocation } from './context/LocationContext';
 import { CartProvider, useCart } from './context/CartContext';
 import Header from './components/Header';
 import CartDrawer from './components/CartDrawer';
+import BottomCartBar from './components/BottomCartBar';
 import CheckoutModal from './components/CheckoutModal';
 import OrderTrackingModal from './components/OrderTrackingModal';
 import LocationModal from './components/LocationModal';
@@ -19,6 +20,7 @@ const CustomerAppContent = () => {
   const [trackingOrder, setTrackingOrder] = useState(null);
 
   const { showLocationModal, setShowLocationModal } = useLocation();
+  const { itemCount } = useCart();
 
   return (
     <div className="min-h-screen bg-[#F4F6FB] flex flex-col justify-between">
@@ -30,7 +32,7 @@ const CustomerAppContent = () => {
           onOpenOrders={() => setCurrentView('orders')}
         />
 
-        <main>
+        <main className={itemCount > 0 ? 'pb-24 sm:pb-28' : ''}>
           {currentView === 'home' ? (
             <Home search={search} setSearch={setSearch} />
           ) : (
@@ -50,6 +52,9 @@ const CustomerAppContent = () => {
         </div>
         <p>Built with Next-Gen Hyperlocal Architecture: Customer App (:3000) • Seller Terminal (:3001) • Admin Console (:3002) • Central API (:5000)</p>
       </footer>
+
+      {/* Bottom Floating Cart Bar (appears at bottom center when items are added) */}
+      <BottomCartBar />
 
       {/* Cart Drawer */}
       <CartDrawer

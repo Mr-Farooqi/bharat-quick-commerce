@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Search,
-  ShoppingCart,
   User,
   MapPin,
   ChevronDown,
@@ -11,12 +10,10 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useCart } from '../context/CartContext';
 import { useLocation } from '../context/LocationContext';
 
 const Header = ({ search, setSearch, onOpenLogin, onOpenOrders }) => {
   const { user, logout } = useAuth();
-  const { itemCount, totalAmount, setIsOpenCart } = useCart();
   const { location, setShowLocationModal } = useLocation();
   const [showUserDropdown, setShowUserDropdown] = useState(false);
 
@@ -130,31 +127,6 @@ const Header = ({ search, setSearch, onOpenLogin, onOpenOrders }) => {
               Login
             </button>
           )}
-
-          {/* Big Green Cart Button */}
-          <button
-            onClick={() => setIsOpenCart(true)}
-            className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs shadow-md shadow-emerald-700/20 transition-all transform active:scale-95 shrink-0"
-          >
-            <div className="relative">
-              <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-              {itemCount > 0 && (
-                <span className="absolute -top-2 -right-2 w-4 h-4 bg-yellow-400 text-slate-950 rounded-full text-[9px] font-black flex items-center justify-center">
-                  {itemCount}
-                </span>
-              )}
-            </div>
-            <div className="text-left leading-tight hidden sm:block">
-              {itemCount > 0 ? (
-                <>
-                  <div className="text-[10px] font-semibold text-emerald-200">{itemCount} items</div>
-                  <div className="text-xs font-black text-white">₹{totalAmount}</div>
-                </>
-              ) : (
-                <span>My Cart</span>
-              )}
-            </div>
-          </button>
         </div>
       </div>
 
