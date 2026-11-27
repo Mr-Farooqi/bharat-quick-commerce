@@ -3,39 +3,78 @@ const ShopProduct = require('../models/ShopProduct');
 const Category = require('../models/Category');
 const Order = require('../models/Order');
 
-// @desc    Get nearby shops for customer
+// Helper for distance calculation in kilometers (Haversine formula)
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Earth's radius in km
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+// @desc    Get nearby shops for customer (Strict 2km Radius)
 // @route   GET /api/customer/shops
 // @access  Public
 exports.getNearbyShops = async (req, res, next) => {
   try {
-    const { lng, lat, distance = 10 } = req.query;
+    const { lng, lat, distance = 2 } = req.query; // 2km limit default
+    const radiusLimit = parseFloat(distance) || 2;
 
-    let query = { isApproved: true, isOpen: true };
-
-    // If coordinates provided, find shops within distance km
-    if (lng && lat && !isNaN(parseFloat(lng)) && !isNaN(parseFloat(lat))) {
-      const longitude = parseFloat(lng);
-      const latitude = parseFloat(lat);
-
-      query.location = {
-        $near: {
-          $geometry: {
-            type: 'Point',
-            coordinates: [longitude, latitude],
-          },
-          $maxDistance: distance * 1000, // convert km to meters
-        },
-      };
+    if (!lng || !lat || isNaN(parseFloat(lng)) || isNaN(parseFloat(lat))) {
+      return res.json({
+        success: true,
+        count: 0,
+        isServiceAvailable: false,
+        radiusKm: radiusLimit,
+        message: 'Location coordinates required to find nearby sellers within 2km',
+        shops: [],
+      });
     }
 
-    let shops = await Shop.find(query).select('-owner');
+    const customerLng = parseFloat(lng);
+    const customerLat = parseFloat(lat);
 
-    // If no geospatial matches, fallback to all approved & open shops for demo convenience
-    if (shops.length === 0) {
-      shops = await Shop.find({ isApproved: true }).limit(10);
+    // Fetch approved and open shops
+    const allApprovedShops = await Shop.find({ isApproved: true, isOpen: true })
+      .select('-owner')
+      .lean();
+
+    // Calculate exact distance for each shop and filter strictly within 2km
+    const nearbyShops = [];
+    for (const shop of allApprovedShops) {
+      if (shop.location && Array.isArray(shop.location.coordinates) && shop.location.coordinates.length === 2) {
+        const [shopLng, shopLat] = shop.location.coordinates;
+        const distKm = getDistanceFromLatLonInKm(customerLat, customerLng, shopLat, shopLng);
+
+        if (distKm <= radiusLimit) {
+          nearbyShops.push({
+            ...shop,
+            distanceKm: Number(distKm.toFixed(2)),
+            deliveryTime: distKm <= 1 ? '10-12 MINS' : '12-15 MINS',
+          });
+        }
+      }
     }
 
-    res.json({ success: true, count: shops.length, shops });
+    // Sort closest first
+    nearbyShops.sort((a, b) => a.distanceKm - b.distanceKm);
+
+    const isAvailable = nearbyShops.length > 0;
+
+    res.json({
+      success: true,
+      count: nearbyShops.length,
+      isServiceAvailable: isAvailable,
+      radiusKm: radiusLimit,
+      message: isAvailable
+        ? `Found ${nearbyShops.length} seller(s) delivering to your location within ${radiusLimit}km.`
+        : `Service not allowed on this location. No BharatBasket seller found within ${radiusLimit}km.`,
+      shops: nearbyShops,
+    });
   } catch (error) {
     next(error);
   }

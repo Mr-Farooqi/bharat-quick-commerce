@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Mail, Lock, Phone, User, X, KeyRound, ArrowRight } from 'lucide-react';
+import { Mail, Lock, Phone, User, X, ArrowRight, ShieldCheck, MapPin } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-const LoginModal = ({ isOpen, onClose }) => {
+const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const { login, register } = useAuth();
   const [isRegister, setIsRegister] = useState(false);
 
@@ -27,19 +27,19 @@ const LoginModal = ({ isOpen, onClose }) => {
       } else {
         await login(email, password);
       }
+      
+      // Close login modal
       onClose();
+
+      // Trigger location prompt as requested by user
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Authentication failed');
+      setError(err.response?.data?.message || err.message || 'Authentication failed. Please check credentials.');
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleDemoFill = () => {
-    setIsRegister(false);
-    setEmail('customer@bharat.com');
-    setPassword('customer1234');
-    setError('');
   };
 
   return (
@@ -47,7 +47,7 @@ const LoginModal = ({ isOpen, onClose }) => {
       <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 relative">
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-800"
+          className="absolute right-4 top-4 p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-800 transition-colors"
         >
           <X className="w-4 h-4" />
         </button>
@@ -59,7 +59,7 @@ const LoginModal = ({ isOpen, onClose }) => {
             {isRegister ? 'Join BharatBasket' : 'Welcome to BharatBasket'}
           </h3>
           <p className="text-[11px] text-slate-500 mt-0.5">
-            BharatBasket's last minute app • Groceries in 10 minutes
+            Groceries & Daily Essentials delivered in 10-15 minutes
           </p>
         </div>
 
@@ -78,10 +78,10 @@ const LoginModal = ({ isOpen, onClose }) => {
                 <input
                   type="text"
                   required
-                  placeholder="Rahul Sharma"
+                  placeholder="e.g. Rahul Sharma"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-yellow-400"
+                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-600 font-medium"
                 />
               </div>
             </div>
@@ -94,10 +94,10 @@ const LoginModal = ({ isOpen, onClose }) => {
               <input
                 type="email"
                 required
-                placeholder="customer@bharat.com"
+                placeholder="youremail@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-yellow-400"
+                className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-600 font-medium"
               />
             </div>
           </div>
@@ -112,7 +112,7 @@ const LoginModal = ({ isOpen, onClose }) => {
                 placeholder="••••••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-yellow-400"
+                className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-600 font-medium"
               />
             </div>
           </div>
@@ -128,35 +128,28 @@ const LoginModal = ({ isOpen, onClose }) => {
                   placeholder="98XXXXXXXX"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-yellow-400"
+                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-600 font-medium"
                 />
               </div>
             </div>
           )}
 
+          <div className="pt-1 text-[11px] text-slate-500 flex items-center gap-1.5">
+            <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+            <span>You will be prompted to select your 2km delivery address next.</span>
+          </div>
+
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 disabled:opacity-50 mt-2"
+            className="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 disabled:opacity-50 mt-2 cursor-pointer"
           >
-            {loading ? 'Please wait...' : isRegister ? 'Create Account' : 'Continue'}
+            {loading ? 'Please wait...' : isRegister ? 'Create Account & Continue' : 'Login & Select Location'}
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        {/* Demo Auto-fill button */}
-        <div className="mt-4 pt-4 border-t border-slate-100">
-          <button
-            type="button"
-            onClick={handleDemoFill}
-            className="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
-          >
-            <KeyRound className="w-3.5 h-3.5 text-yellow-600" />
-            <span>Autofill Demo Customer Login</span>
-          </button>
-        </div>
-
-        <div className="text-center mt-3 text-xs text-slate-500">
+        <div className="text-center mt-4 text-xs text-slate-500">
           {isRegister ? (
             <span>Already have an account? <button onClick={() => setIsRegister(false)} className="text-emerald-700 font-bold hover:underline">Login</button></span>
           ) : (
