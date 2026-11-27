@@ -2,7 +2,7 @@
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>BharatBasket | India's 10-Minute Grocery Delivery | Fresh Groceries & Daily Essentials</title>
   
   <!-- SEO Meta Tags -->
@@ -64,10 +64,24 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    body {
+    html, body {
       background-color: #080C15;
       color: #F8FAFC;
       font-family: 'Plus Jakarta Sans', sans-serif;
+      /* Prevent touch zoom & horizontal overflow */
+      touch-action: pan-x pan-y;
+      -webkit-text-size-adjust: 100%;
+      -moz-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      overflow-x: hidden;
+      max-width: 100vw;
+      width: 100%;
+    }
+    @media screen and (max-width: 768px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
     }
     .mesh-gradient {
       background: radial-gradient(circle at 15% 20%, rgba(245, 158, 11, 0.12) 0%, transparent 45%),
@@ -1058,6 +1072,51 @@
       document.getElementById('appModal').classList.remove('flex');
       document.getElementById('appModal').classList.add('hidden');
     }
+
+    // Universal Zoom Prevention (Multi-touch, pinch, double-tap, gesture & desktop shortcuts)
+    (function() {
+      // 1. Prevent multi-touch pinch to zoom
+      document.addEventListener('touchstart', function(e) {
+        if (e.touches.length > 1) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      document.addEventListener('touchmove', function(e) {
+        if (e.touches.length > 1) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      // 2. Prevent Safari gesture zoom
+      document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
+      document.addEventListener('gesturechange', function(e) { e.preventDefault(); });
+      document.addEventListener('gestureend', function(e) { e.preventDefault(); });
+
+      // 3. Prevent double tap zoom
+      var lastTouch = 0;
+      document.addEventListener('touchend', function(e) {
+        var now = Date.now();
+        if (now - lastTouch <= 300) {
+          e.preventDefault();
+        }
+        lastTouch = now;
+      }, { passive: false });
+
+      // 4. Prevent Ctrl + Wheel zoom on desktop trackpads / mouse
+      window.addEventListener('wheel', function(e) {
+        if (e.ctrlKey) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      // 5. Prevent keyboard zoom shortcuts (Ctrl/Cmd + '+', '-', '0')
+      window.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=' || e.key === '0' || e.key === '_')) {
+          e.preventDefault();
+        }
+      });
+    })();
   </script>
 </body>
 </html>

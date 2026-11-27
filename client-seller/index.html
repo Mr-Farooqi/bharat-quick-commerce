@@ -10,17 +10,64 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Bharat Seller" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Prevent user scaling / zooming across all devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>BharatBasket | Partner & Merchant Hub</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
+      // Service Worker registration
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js').catch(() => {});
         });
       }
+
+      // Universal Zoom Prevention (Multi-touch, pinch, double-tap, gesture & desktop shortcuts)
+      (function() {
+        // 1. Prevent multi-touch pinch to zoom
+        document.addEventListener('touchstart', function(e) {
+          if (e.touches.length > 1) {
+            e.preventDefault();
+          }
+        }, { passive: false });
+
+        document.addEventListener('touchmove', function(e) {
+          if (e.touches.length > 1) {
+            e.preventDefault();
+          }
+        }, { passive: false });
+
+        // 2. Prevent Safari gesture zoom
+        document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
+        document.addEventListener('gesturechange', function(e) { e.preventDefault(); });
+        document.addEventListener('gestureend', function(e) { e.preventDefault(); });
+
+        // 3. Prevent double tap zoom
+        var lastTouch = 0;
+        document.addEventListener('touchend', function(e) {
+          var now = Date.now();
+          if (now - lastTouch <= 300) {
+            e.preventDefault();
+          }
+          lastTouch = now;
+        }, { passive: false });
+
+        // 4. Prevent Ctrl + Wheel zoom on desktop trackpads / mouse
+        window.addEventListener('wheel', function(e) {
+          if (e.ctrlKey) {
+            e.preventDefault();
+          }
+        }, { passive: false });
+
+        // 5. Prevent keyboard zoom shortcuts (Ctrl/Cmd + '+', '-', '0')
+        window.addEventListener('keydown', function(e) {
+          if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=' || e.key === '0' || e.key === '_')) {
+            e.preventDefault();
+          }
+        });
+      })();
     </script>
   </head>
   <body class="bg-[#F8F9FA] text-slate-800 antialiased font-['Plus_Jakarta_Sans',sans-serif]">
